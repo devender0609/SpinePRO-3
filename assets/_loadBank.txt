@@ -1,0 +1,10 @@
+  async function loadBank(){
+    // Prefer embedded bank (avoids path/routing issues on static hosts)
+    const embedded = document.getElementById("itembank-json");
+    if (embedded && embedded.textContent && embedded.textContent.trim().length > 0) {
+      return JSON.parse(embedded.textContent);
+    }
+    const res = await fetch(BANK_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("bank fetch failed");
+    return await res.json();
+  }

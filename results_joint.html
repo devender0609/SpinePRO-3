@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpinePRO Joint‑CAT — Results</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f3f6fb;margin:0;padding:24px;}
+    .card{max-width:1100px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.06);padding:24px;}
+    h1{margin:0 0 4px 0;font-size:34px;}
+    .sub{color:#4b5563;margin:0 0 18px 0;}
+    .chips{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 16px 0}
+    .chip{background:#eef2ff;border-radius:999px;padding:8px 12px;font-size:13px}
+    .actions{display:flex;gap:10px;margin:10px 0 18px 0}
+    .btn{border:none;border-radius:999px;padding:10px 16px;font-weight:800;cursor:pointer}
+    .btn.secondary{background:#111827;color:#fff}
+    .btn.primary{background:#2563eb;color:#fff}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #e5e7eb;font-size:13px;vertical-align:top}
+    th{text-align:left;color:#374151}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+    .domainTable td,.domainTable th{font-size:13px}
+    .tag{display:inline-block;border:1px solid #d1d5db;border-radius:999px;padding:3px 8px;font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>SpinePRO Joint‑CAT Results</h1>
+    <p class="sub">Most recent local run stored in <code>localStorage</code>. Prototype display only (not validated).</p>
+
+    <div class="chips">
+      <div class="chip">Theta: <b id="theta">—</b></div>
+      <div class="chip">Posterior SD: <b id="se">—</b></div>
+      <div class="chip">Items answered: <b id="n">—</b></div>
+      <div class="chip">Completed: <b id="ts">—</b></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" onclick="location.href='./survey_joint.html?restart=1'">Take Again</button>
+      <button class="btn secondary" onclick="location.href='./index.html'">Home</button>
+    </div>
+
+    <h2>Clinician‑friendly summary (prototype)</h2>
+    <div id="summary"></div>
+
+    <h2 style="margin-top:18px">Answered items</h2>
+    <table>
+      <thead><tr><th>#</th><th>Instrument</th><th>Domain</th><th>Item</th><th>Response</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+<script>
+(function(){
+  const KEY="spinepro_jointcat_last_run_v1";
+  function byId(id){ return document.getElementById(id); }
+
+  function categorySymptom(t){
+    if(t < 55) return "None–Mild";
+    if(t < 60) return "Moderate";
+    return "Severe";
+  }
+  function categoryFunction(t){
+    if(t >= 45) return "None–Mild Limitation";
+    if(t >= 35) return "Mild Limitation";
+    if(t >= 25) return "Moderate Limitation";
+    return "Severe Limitation";
+  }
+
+  function makeSummary(run){
+    // Because this prototype currently uses a single latent trait, we show:
+    // - overall theta-based T-score proxy (50 + 10*theta)
+    // - response-derived domain means for interpretability
+    const T = 50 + 10*run.theta;
+    const items = run.itemsAnswered || [];
+    const domainAgg = {};
+    for(const it of items){
+      if(!domainAgg[it.domain]) domainAgg[it.domain] = {sum:0, n:0};
+      domainAgg[it.domain].sum += (it.k || 0);
+      domainAgg[it.domain].n += 1;
+    }
+    // build table
+    let html = '<table class="domainTable"><thead><tr><th>Domain</th><th>Score</th><th>Category</th><th>Interpretation</th></tr></thead><tbody>';
+    const order = ["PF","PI","FAT","ANX","DEP","SR","SRS","GEN"];
+    const interp = {
+      PF:"Higher = better function.",
+      SR:"Higher = better ability to participate.",
+      PI:"Higher = more pain interference.",
+      FAT:"Higher = more fatigue.",
+      ANX:"Higher = more anxiety.",
+      DEP:"Higher = more depression.",
+      SRS:"Higher = better scoliosis-related health status.",
+      GEN:"Mixed/other items."
+    };
+
+    for(const d of order){
+      if(!domainAgg[d]) continue;
+      const mean = domainAgg[d].sum / domainAgg[d].n; // 1..5
+      // map mean->T proxy centered at 3
+      const t = 50 + 10*((mean-3)/1.2);
+      let cat = (d==="PF"||d==="SR"||d==="SRS") ? categoryFunction(t) : categorySymptom(t);
+      html += `<tr>
+        <td>${d}</td>
+        <td>${t.toFixed(1)}</td>
+        <td><span class="tag">${cat}</span></td>
+        <td>${interp[d]||""}</td>
+      </tr>`;
+    }
+    html += '</tbody></table>';
+    html += `<p style="color:#6b7280;font-size:12px;margin-top:10px">
+      Note: Domain T‑scores here are *prototype proxies* derived from response means, not official PROMIS/SRS scoring or calibrated IRT.
+      Use only for internal testing while you finalize calibration and validation.
+    </p>`;
+    return html;
+  }
+
+  const raw = localStorage.getItem(KEY);
+  if(!raw){
+    byId("summary").innerHTML = "<p><b>No results yet.</b> Complete the survey to generate results.</p>";
+    return;
+  }
+  const run = JSON.parse(raw);
+  byId("theta").textContent = (run.theta ?? "—").toFixed ? run.theta.toFixed(2) : run.theta;
+  byId("se").textContent = (run.se ?? "—").toFixed ? run.se.toFixed(2) : run.se;
+  byId("n").textContent = (run.itemsAnswered||[]).length;
+  byId("ts").textContent = (run.completedAt||"—").replace("T"," ").replace("Z","");
+
+  byId("summary").innerHTML = makeSummary(run);
+
+  const tbody = byId("rows");
+  (run.itemsAnswered||[]).forEach((it, idx)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${idx+1}</td>
+      <td>${it.instrument||""}</td>
+      <td>${it.domain||""}</td>
+      <td>${it.stem||""}</td>
+      <td>${it.response||""}</td>`;
+    tbody.appendChild(tr);
+  });
+})();
+</script>
+</body>
+</html>
