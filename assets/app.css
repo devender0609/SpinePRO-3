@@ -1,0 +1,28 @@
+:root{--bg:#f3f6fb;--card:#fff;--text:#0f172a;--muted:#475569;--blue:#2563eb;--dark:#0b1220;--border:#e2e8f0;}
+*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text)}
+.container{max-width:1080px;margin:40px auto;padding:0 20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.08);padding:28px}
+.h1{font-size:42px;letter-spacing:-.02em;margin:0}
+.sub{color:var(--muted);margin-top:6px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.spacer{height:18px}
+.btn{appearance:none;border:0;border-radius:999px;padding:12px 18px;font-weight:700;cursor:pointer}
+.btn.primary{background:var(--blue);color:#fff}
+.btn.dark{background:var(--dark);color:#fff}
+.btn.ghost{background:#fff;border:1px solid var(--border);color:var(--text)}
+.badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;border:1px solid var(--border);background:#fff;padding:6px 10px;color:var(--muted);font-size:13px}
+.progress{height:6px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.progress>div{height:100%;background:var(--blue);width:0%}
+.qtext{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:10px 0 18px}
+.choices{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.choice{border:1px solid var(--border);background:#fff;border-radius:14px;padding:14px 12px;font-weight:700;cursor:pointer}
+.choice:hover{border-color:#cbd5e1}
+.kv{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.small{color:var(--muted);font-size:13px;line-height:1.4}
+hr{border:0;border-top:1px solid var(--border);margin:18px 0}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:top;font-size:14px}
+th{color:var(--muted);text-align:left;font-weight:800}
+.tag{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:12px;background:#fff}
+@media(max-width:900px){.choices{grid-template-columns:1fr 1fr}.h1{font-size:34px}.qtext{font-size:24px}}

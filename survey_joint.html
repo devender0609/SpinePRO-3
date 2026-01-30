@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpinePRO Joint-CAT – Survey</title>
+  <link rel="icon" href="/favicon.ico"/>
+  <link rel="stylesheet" href="/assets/app.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="card" id="app">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="h1" style="font-size:34px">SpinePRO Joint-CAT</div>
+          <div class="sub">Adaptive: PROMIS + SRS items in one engine (multidomain prototype).</div>
+          <div class="spacer"></div>
+          <div class="row">
+            <span class="badge" id="statusBadge">Loading…</span>
+            <span class="badge" id="countBadge">0/15 items</span>
+            
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn dark" id="restartBtn" type="button">Restart</button>
+          <button class="btn primary" id="finishBtn" type="button">Finish</button>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="progress"><div id="progressFill"></div></div>
+
+      <div class="spacer"></div>
+      <div class="qtext" id="questionText">Loading…</div>
+      <div class="choices" id="choices"></div>
+
+      <div class="spacer"></div>
+      <div class="kv">
+        <div>Overall theta: <b id="theta">—</b></div>
+        <div>Overall SD: <b id="sd">—</b></div>
+        <div>Rule: <span class="tag" id="ruleTag">content-balance → uncertainty</span></div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="small" id="note">
+        Prototype note: item parameters are estimated from synthetic data (not official calibrations). Use for internal testing only.
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/jointcat_mdc.js?v=20260130a"></script>
+</body>
+</html>

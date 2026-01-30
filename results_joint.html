@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpinePRO Joint-CAT – Results</title>
+  <link rel="icon" href="/favicon.ico"/>
+  <link rel="stylesheet" href="/assets/app.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="h1" style="font-size:34px">SpinePRO Joint-CAT Results</div>
+          <div class="sub">Most recent local run stored in <code>localStorage</code>. Prototype display only.</div>
+          <div class="spacer"></div>
+          <div class="row" id="topBadges"></div>
+        </div>
+        <div class="row">
+          <a class="btn primary" href="/survey_joint.html">Take again</a>
+          <a class="btn dark" href="/index.html">Home</a>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="h1" style="font-size:22px;margin-top:8px">Clinician-friendly summary (prototype)</div>
+      <div class="spacer"></div>
+      <div id="summaryTable"></div>
+
+      <div class="spacer"></div>
+      <hr/>
+      <div class="h1" style="font-size:22px;margin-top:0">Answered items</div>
+      <div class="spacer"></div>
+      <div id="answeredTable"></div>
+
+      <div class="spacer"></div>
+      <div class="small">
+        Note: Domain T-scores here are <b>prototype proxies</b> derived from the adaptive state (theta per domain → T = 50 + 10·theta).
+        Not official PROMIS or SRS scoring. This is a scaffolding UI for your future validated calibration/score spec.
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/jointcat_mdc.js?v=20260130a"></script>
+  <script>window.JOINTCAT.renderResults();</script>
+</body>
+</html>
