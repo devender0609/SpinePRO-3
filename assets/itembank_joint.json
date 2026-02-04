@@ -1,0 +1,1205 @@
+{
+  "version": "synthetic-expanded-v1",
+  "items": [
+    {
+      "id": "FAT_synthetic_1",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 1: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 1.28,
+      "b": [
+        -0.57,
+        -0.24,
+        0.33,
+        0.81
+      ]
+    },
+    {
+      "id": "FAT_synthetic_2",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 2: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 0.8,
+      "b": [
+        -0.17,
+        0.35,
+        0.69,
+        1.03
+      ]
+    },
+    {
+      "id": "FAT_synthetic_3",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 3: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 1.46,
+      "b": [
+        0.52,
+        0.93,
+        1.54,
+        2.31
+      ]
+    },
+    {
+      "id": "FAT_synthetic_4",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 4: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 1.74,
+      "b": [
+        0.08,
+        0.4,
+        1.13,
+        1.58
+      ]
+    },
+    {
+      "id": "FAT_synthetic_5",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 5: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 0.96,
+      "b": [
+        -0.81,
+        -0.1,
+        0.29,
+        0.88
+      ]
+    },
+    {
+      "id": "FAT_synthetic_6",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 6: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 1.85,
+      "b": [
+        -0.18,
+        0.15,
+        0.48,
+        0.88
+      ]
+    },
+    {
+      "id": "FAT_synthetic_7",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 7: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 1.92,
+      "b": [
+        -0.19,
+        0.41,
+        0.93,
+        1.38
+      ]
+    },
+    {
+      "id": "FAT_synthetic_8",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 8: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 2.13,
+      "b": [
+        0.32,
+        0.91,
+        1.47,
+        2.21
+      ]
+    },
+    {
+      "id": "FAT_synthetic_9",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 9: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 2.01,
+      "b": [
+        -0.13,
+        0.22,
+        0.73,
+        1.41
+      ]
+    },
+    {
+      "id": "FAT_synthetic_10",
+      "instrument": "PROMIS",
+      "domain": "FAT",
+      "stem": "[Synthetic] FAT item 10: Please rate the impact in this domain.",
+      "choices": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "a": 0.97,
+      "b": [
+        -0.2,
+        0.43,
+        1.11,
+        1.7
+      ]
+    },
+    {
+      "id": "PF_synthetic_1",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 1: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 2.28,
+      "b": [
+        -0.22,
+        0.37,
+        0.96,
+        1.49
+      ]
+    },
+    {
+      "id": "PF_synthetic_2",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 2: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 2.21,
+      "b": [
+        0.93,
+        1.56,
+        1.89,
+        2.54
+      ]
+    },
+    {
+      "id": "PF_synthetic_3",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 3: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 1.86,
+      "b": [
+        1.2,
+        1.64,
+        2.13,
+        2.77
+      ]
+    },
+    {
+      "id": "PF_synthetic_4",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 4: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 0.74,
+      "b": [
+        -0.19,
+        0.17,
+        0.5,
+        1.18
+      ]
+    },
+    {
+      "id": "PF_synthetic_5",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 5: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 0.93,
+      "b": [
+        -0.51,
+        0.23,
+        0.57,
+        1.09
+      ]
+    },
+    {
+      "id": "PF_synthetic_6",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 6: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 1.69,
+      "b": [
+        0.98,
+        1.71,
+        2.15,
+        2.66
+      ]
+    },
+    {
+      "id": "PF_synthetic_7",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 7: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 1.35,
+      "b": [
+        1.05,
+        1.42,
+        1.81,
+        2.23
+      ]
+    },
+    {
+      "id": "PF_synthetic_8",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 8: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 1.12,
+      "b": [
+        0.06,
+        0.5,
+        0.8,
+        1.31
+      ]
+    },
+    {
+      "id": "PF_synthetic_9",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 9: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 1.36,
+      "b": [
+        0.41,
+        1.05,
+        1.61,
+        2.22
+      ]
+    },
+    {
+      "id": "PF_synthetic_10",
+      "instrument": "PROMIS",
+      "domain": "PF",
+      "stem": "[Synthetic] PF item 10: Please rate the impact in this domain.",
+      "choices": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "a": 1.92,
+      "b": [
+        -0.64,
+        0.05,
+        0.78,
+        1.48
+      ]
+    },
+    {
+      "id": "PI_synthetic_1",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 1: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 1.41,
+      "b": [
+        -0.35,
+        0.27,
+        0.6,
+        0.93
+      ]
+    },
+    {
+      "id": "PI_synthetic_2",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 2: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 1.08,
+      "b": [
+        -0.71,
+        -0.38,
+        -0.08,
+        0.3
+      ]
+    },
+    {
+      "id": "PI_synthetic_3",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 3: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 0.88,
+      "b": [
+        -0.46,
+        0.28,
+        0.88,
+        1.26
+      ]
+    },
+    {
+      "id": "PI_synthetic_4",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 4: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 1.15,
+      "b": [
+        -0.32,
+        0.04,
+        0.76,
+        1.56
+      ]
+    },
+    {
+      "id": "PI_synthetic_5",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 5: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 1.54,
+      "b": [
+        -0.19,
+        0.16,
+        0.63,
+        1.07
+      ]
+    },
+    {
+      "id": "PI_synthetic_6",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 6: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 2.19,
+      "b": [
+        -0.87,
+        -0.09,
+        0.47,
+        0.85
+      ]
+    },
+    {
+      "id": "PI_synthetic_7",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 7: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 1.68,
+      "b": [
+        -0.88,
+        -0.09,
+        0.64,
+        1.29
+      ]
+    },
+    {
+      "id": "PI_synthetic_8",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 8: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 1.17,
+      "b": [
+        -0.38,
+        0.3,
+        0.87,
+        1.56
+      ]
+    },
+    {
+      "id": "PI_synthetic_9",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 9: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 1.29,
+      "b": [
+        -0.35,
+        0.44,
+        1.17,
+        1.87
+      ]
+    },
+    {
+      "id": "PI_synthetic_10",
+      "instrument": "PROMIS",
+      "domain": "PI",
+      "stem": "[Synthetic] PI item 10: Please rate the impact in this domain.",
+      "choices": [
+        "Not at all",
+        "A little bit",
+        "Somewhat",
+        "Quite a bit",
+        "Very much"
+      ],
+      "a": 2.17,
+      "b": [
+        0.39,
+        0.95,
+        1.43,
+        1.74
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_1",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 1: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 0.75,
+      "b": [
+        -0.51,
+        0.13,
+        0.91,
+        1.44
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_2",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 2: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 2.39,
+      "b": [
+        1.25,
+        1.74,
+        2.15,
+        2.56
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_3",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 3: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 1.05,
+      "b": [
+        -0.48,
+        0.27,
+        0.99,
+        1.53
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_4",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 4: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 1.88,
+      "b": [
+        0.44,
+        1.07,
+        1.83,
+        2.52
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_5",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 5: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 2.05,
+      "b": [
+        -0.15,
+        0.54,
+        1.01,
+        1.71
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_6",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 6: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 2.45,
+      "b": [
+        -0.21,
+        0.57,
+        1.23,
+        1.61
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_7",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 7: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 0.93,
+      "b": [
+        -0.45,
+        0.26,
+        0.63,
+        1.34
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_8",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 8: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 2.46,
+      "b": [
+        0.29,
+        0.86,
+        1.23,
+        1.54
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_9",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 9: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 2.45,
+      "b": [
+        0.36,
+        1.13,
+        1.65,
+        2.38
+      ]
+    },
+    {
+      "id": "SRS_Function_synthetic_10",
+      "instrument": "SRS",
+      "domain": "SRS_Function",
+      "stem": "[Synthetic] SRS_Function item 10: Please rate the impact in this domain.",
+      "choices": [
+        "Not limited",
+        "Slightly",
+        "Moderately",
+        "Severely",
+        "Unable"
+      ],
+      "a": 2.19,
+      "b": [
+        -0.65,
+        -0.21,
+        0.21,
+        0.81
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_1",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 1: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.17,
+      "b": [
+        -0.3,
+        0.46,
+        0.94,
+        1.46
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_2",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 2: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.75,
+      "b": [
+        0.82,
+        1.58,
+        2.13,
+        2.69
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_3",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 3: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.64,
+      "b": [
+        -0.94,
+        -0.55,
+        -0.25,
+        0.45
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_4",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 4: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.01,
+      "b": [
+        0.11,
+        0.69,
+        1.15,
+        1.71
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_5",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 5: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.7,
+      "b": [
+        0.42,
+        1.0,
+        1.43,
+        1.86
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_6",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 6: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 2.09,
+      "b": [
+        0.1,
+        0.78,
+        1.53,
+        2.05
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_7",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 7: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.8,
+      "b": [
+        0.07,
+        0.71,
+        1.24,
+        1.81
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_8",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 8: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.56,
+      "b": [
+        1.03,
+        1.77,
+        2.54,
+        2.97
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_9",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 9: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 1.71,
+      "b": [
+        1.11,
+        1.48,
+        1.84,
+        2.36
+      ]
+    },
+    {
+      "id": "SRS_Pain_synthetic_10",
+      "instrument": "SRS",
+      "domain": "SRS_Pain",
+      "stem": "[Synthetic] SRS_Pain item 10: Please rate the impact in this domain.",
+      "choices": [
+        "None",
+        "Mild",
+        "Moderate",
+        "Severe",
+        "Very severe"
+      ],
+      "a": 0.83,
+      "b": [
+        -0.68,
+        -0.05,
+        0.64,
+        1.39
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_1",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 1: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 0.98,
+      "b": [
+        0.56,
+        0.93,
+        1.68,
+        2.46
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_2",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 2: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 1.1,
+      "b": [
+        0.9,
+        1.45,
+        2.24,
+        2.96
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_3",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 3: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 0.99,
+      "b": [
+        -0.08,
+        0.39,
+        0.79,
+        1.25
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_4",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 4: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 2.0,
+      "b": [
+        -0.88,
+        -0.36,
+        -0.05,
+        0.41
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_5",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 5: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 1.82,
+      "b": [
+        -0.14,
+        0.65,
+        1.34,
+        2.13
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_6",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 6: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 0.89,
+      "b": [
+        -0.65,
+        0.04,
+        0.48,
+        0.84
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_7",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 7: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 1.46,
+      "b": [
+        1.03,
+        1.46,
+        1.84,
+        2.6
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_8",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 8: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 1.73,
+      "b": [
+        0.25,
+        0.57,
+        1.22,
+        1.73
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_9",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 9: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 0.83,
+      "b": [
+        0.99,
+        1.69,
+        2.04,
+        2.76
+      ]
+    },
+    {
+      "id": "SRS_SelfImage_synthetic_10",
+      "instrument": "SRS",
+      "domain": "SRS_SelfImage",
+      "stem": "[Synthetic] SRS_SelfImage item 10: Please rate the impact in this domain.",
+      "choices": [
+        "Very happy",
+        "Somewhat happy",
+        "Neutral",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "a": 0.82,
+      "b": [
+        0.75,
+        1.22,
+        1.8,
+        2.56
+      ]
+    }
+  ]
+}

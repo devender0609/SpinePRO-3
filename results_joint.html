@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpinePRO Joint‑CAT Results</title>
+  <link rel="icon" href="/favicon.ico"/>
+  <link rel="stylesheet" href="/assets/app.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div>
+          <h1>SpinePRO Joint‑CAT Results</h1>
+          <div class="subtitle">Most recent local run stored in localStorage.</div>
+          <div class="pills">
+            <span class="pill" id="thetaPill">Theta: —</span>
+            <span class="pill" id="sdPill">Posterior SD: —</span>
+            <span class="pill" id="nPill">Items: —</span>
+            <span class="pill" id="savedPill">Saved: —</span>
+          </div>
+        </div>
+        <div class="btnRow">
+          <a class="btn primary" href="/survey_joint.html">Take again</a>
+          <a class="btn" href="/index.html">Home</a>
+        </div>
+      </div>
+
+      <h2 style="margin-top:22px;">Clinician‑friendly summary (prototype)</h2>
+      <div class="note">
+        Domain values are prototype summaries from the adaptive state. Replace mappings with validated PROMIS T‑score and SRS scoring once calibration/spec is finalized.
+      </div>
+
+      <table id="domainTable">
+        <thead>
+          <tr><th>DOMAIN</th><th>INSTRUMENT</th><th>THETA</th><th>PROXY T‑SCORE</th><th>INTERPRETATION</th><th>ITEMS</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <h2 style="margin-top:26px;">Answered items</h2>
+      <table id="itemsTable">
+        <thead>
+          <tr><th>#</th><th>INSTRUMENT</th><th>DOMAIN</th><th>ITEM</th><th>RESPONSE</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="note" id="noDataNote" style="display:none;">
+        No saved run found. Take the survey first.
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function interpFromT(t){
+    if(!isFinite(t)) return "—";
+    if(t < 40) return "Low impact";
+    if(t < 55) return "Within expected range";
+    if(t < 65) return "Elevated impact";
+    return "High / severe impact";
+  }
+  function fmt(x, d=2){
+    if(x===null || x===undefined || !isFinite(x)) return "—";
+    return Number(x).toFixed(d);
+  }
+  const raw = localStorage.getItem("spinepro_jointcat_lastRun");
+  if(!raw){
+    document.getElementById("noDataNote").style.display="block";
+  } else {
+    const run = JSON.parse(raw);
+    document.getElementById("thetaPill").textContent = "Theta: " + fmt(run.theta, 2);
+    document.getElementById("sdPill").textContent = "Posterior SD: " + fmt(run.sd, 2);
+    document.getElementById("nPill").textContent = "Items: " + (run.n ?? "—");
+    document.getElementById("savedPill").textContent = "Saved: " + (run.savedAt ?? "—");
+
+    const dtBody = document.querySelector("#domainTable tbody");
+    dtBody.innerHTML = "";
+    const domains = (run.domains || []).slice().sort((a,b)=> (a.domain||"").localeCompare(b.domain||""));
+    for(const d of domains){
+      const tr = document.createElement("tr");
+      const t = (d.tScoreProxy ?? null);
+      tr.innerHTML = `
+        <td><b>${d.domain || ""}</b></td>
+        <td>${d.instrument || ""}</td>
+        <td>${fmt(d.theta,2)}</td>
+        <td>${t===null? "—" : fmt(t,0)}</td>
+        <td>${interpFromT(t)}</td>
+        <td>${d.n || 0}</td>
+      `;
+      dtBody.appendChild(tr);
+    }
+
+    const itBody = document.querySelector("#itemsTable tbody");
+    itBody.innerHTML = "";
+    const items = run.items || [];
+    items.forEach((it, idx)=>{
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${idx+1}</td>
+        <td>${it.instrument || ""}</td>
+        <td>${it.domain || ""}</td>
+        <td>${it.stem || ""}</td>
+        <td><b>${it.responseLabel || it.responseIndex}</b></td>
+      `;
+      itBody.appendChild(tr);
+    });
+  }
+  </script>
+</body>
+</html>
