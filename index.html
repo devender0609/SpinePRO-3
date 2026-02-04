@@ -2,32 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>SpinePRO Joint-CAT</title>
-  <link rel="icon" href="/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/app.css"/>
+  <link rel="icon" href="./favicon.ico"/>
+  <link rel="stylesheet" href="./assets/app.css"/>
 </head>
 <body>
   <div class="container">
     <div class="card">
-      <div class="header">
+      <div class="topbar">
         <div>
-          <h1>SpinePRO Joint‑CAT</h1>
-          <div class="subtitle">Adaptive: PROMIS + SRS items in one engine (multidomain prototype).</div>
-          <div class="pills">
-            <span class="pill">Variable length</span>
-            <span class="pill">Content balancing</span>
-            <span class="pill">IRT (GRM/2PL)</span>
-          </div>
+          <h1>SpinePRO Joint-CAT</h1>
+          <p class="sub">Adaptive: PROMIS + SRS items in one engine (multidomain prototype).</p>
         </div>
-        <div class="btnRow">
-          <a class="btn primary" href="/survey_joint.html">Start</a>
-          <a class="btn" href="/results_joint.html">View last results</a>
+        <div class="controls">
+          <a class="btn btnPrimary" href="./survey_joint.html">Start</a>
+          <a class="btn btnGhost" href="./results_joint.html">Results</a>
         </div>
       </div>
-      <div class="note">
-        This deployment is a working scaffold. Replace <code>assets/itembank_joint.json</code> with your full calibrated PROMIS + SRS bank to run a real-length CAT.
-      </div>
+
+      <hr/>
+      <p class="small">
+        This is a prototype scaffold for a future validated Joint-CAT.
+        Item text comes from the PROMIS short forms and SRS-22 provided.
+        The adaptive logic (content-balance + uncertainty stopping) is implemented, but IRT parameters are placeholders unless you supply calibrated parameters.
+      </p>
     </div>
   </div>
 </body>

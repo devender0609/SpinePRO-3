@@ -2,48 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>SpinePRO Joint‑CAT</title>
-  <link rel="icon" href="/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/app.css"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>SpinePRO Joint-CAT</title>
+  <link rel="icon" href="./favicon.ico"/>
+  <link rel="stylesheet" href="./assets/app.css"/>
 </head>
 <body>
   <div class="container">
     <div class="card">
-      <div class="header">
+      <div class="topbar">
         <div>
-          <h1>SpinePRO Joint‑CAT</h1>
-          <div class="subtitle">Adaptive: PROMIS + SRS items in one engine (multidomain prototype).</div>
-          <div class="pills">
-            <span class="pill" id="statusPill">Loading…</span>
-            <span class="pill" id="countPill">0 items</span>
-            <span class="pill" id="domainPill">Domain: —</span>
+          <h1>SpinePRO Joint-CAT</h1>
+          <p class="sub">Adaptive: PROMIS + SRS items in one engine (multidomain prototype).</p>
+          <div class="badges">
+            <span class="badge" id="badge_domain">Loading…</span>
+            <span class="badge" id="badge_items">0/25 items (cap)</span>
+          </div>
+          <div class="progressWrap">
+            <div class="progress"><div id="progressFill"></div></div>
           </div>
         </div>
-        <div class="btnRow">
-          <button class="btn" id="restartBtn">Restart</button>
-          <button class="btn primary" id="finishBtn">Finish</button>
+        <div class="controls">
+          <button class="btn btnGhost" id="restart" type="button">Restart</button>
+          <button class="btn btnPrimary" id="finish" type="button">Finish</button>
         </div>
       </div>
 
-      <div class="progress"><div id="progressBar"></div></div>
-
-      <div class="question" id="questionText">Loading…</div>
+      <div class="q" id="question">Loading…</div>
       <div class="choices" id="choices"></div>
 
-      <div class="footerRow">
-        <div>
-          Posterior SD: <b id="sdText">—</b> &nbsp;&nbsp; Current theta: <b id="thetaText">—</b>
-        </div>
-        <div class="badge" id="ruleText">Rule: content‑balance → uncertainty (IRT)</div>
+      <div class="kpis">
+        <div class="kpi">Overall theta: <b id="k_overall_theta">—</b></div>
+        <div class="kpi">Overall SD: <b id="k_overall_se">—</b></div>
+        <div class="kpi">Rule: <span class="badge" id="k_rule">—</span></div>
       </div>
 
-      <div class="note" id="note">
-        Prototype note: parameters must be calibrated on real PROMIS+SRS joint data for clinical use.
+      <p class="small" id="stopReason" style="margin-top:12px;"></p>
+
+      <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-start;flex-wrap:wrap;">
+        <button class="btn btnPrimary" id="viewResults" type="button" style="display:none;">View results</button>
       </div>
+
+      <p class="small" style="margin-top:12px;">
+        Prototype note: This build uses placeholder IRT parameters for selection/scoring unless you provide calibrated parameters.
+        Use for internal testing only.
+      </p>
     </div>
   </div>
 
-  <script type="module" src="/assets/jointcat_mdc.js"></script>
+  <script type="module" src="./assets/jointcat.js"></script>
 </body>
 </html>
