@@ -1,0 +1,14 @@
+{
+  "n_simulations": 10000,
+  "mean_test_length": 12.0,
+  "sd_test_length": 0.0,
+  "min_test_length": 12,
+  "max_test_length": 12,
+  "mean_global_SE": 0.969,
+  "sd_global_SE": 0.0,
+  "n_constraints": 55,
+  "items_in_bank": 67,
+  "domains": 11,
+  "residual_ld_pairs": 0,
+  "residual_ld_pct": 0.0
+}

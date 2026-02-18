@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Results</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/assets/app.css?v=20260217-203703" />
+</head>
+<body>
+  <div class="pageLogoWrap"><img class="pageLogo" src="/assets/brand_logo.png" alt="Ascension Seton logo"></div>
+<main class="wrap">
+    <section class="card">
+      <div class="status" data-role="status"></div>
+
+      <div class="resultsHeader">
+        <div class="resultsTitle">SpinePRO Joint CAT Results</div>
+        <div class="resultsClinic">Texas Spine &amp; Scoliosis, Austin TX</div>
+      </div>
+
+      <h2 style="margin-top:6px">PROMIS</h2>
+      <div data-role="promisTable"></div>
+
+      <h2 style="margin-top:26px">SRS-22r</h2>
+      <div data-role="srsTable"></div>
+
+      <div class="actions">
+        <button class="btn" id="btnPdf" type="button">Save as PDF</button>
+        <button class="btn" id="btnSubmitFinish" type="button">Submit &amp; Finish</button>
+        <button class="btn" id="btnPrint" type="button">Print</button>
+        <button class="btn" id="btnEmail" type="button">Email Results</button>
+      </div>
+</section>
+  </main>
+
+  <script src="/assets/cat_engine.js?v=20260217-203703"></script>
+  <script src="/assets/app.js?v=20260217-203703"></script>
+</body>
+</html>

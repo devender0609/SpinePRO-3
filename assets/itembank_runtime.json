@@ -1,0 +1,1405 @@
+{
+  "version": "3.0-calibrated",
+  "calibration_note": "GRM parameters calibrated via MML (marginal maximum likelihood) on N=969 spine surgery patients. PROMIS: 5 domains, 44 items. SRS-22r: 5 domains, 22 items.",
+  "n_patients_calibration": 969,
+  "domains": [
+    "Anxiety",
+    "Depression",
+    "Fatigue",
+    "Participation",
+    "Physical_Function",
+    "SRS_Function",
+    "SRS_Mental_Health",
+    "SRS_Pain",
+    "SRS_Satisfaction",
+    "SRS_Self_Image"
+  ],
+  "prior_covariance": [
+    [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "cat_config": {
+    "min_items": 8,
+    "max_items": 18,
+    "global_SE_threshold": 0.35,
+    "domains_min": 4,
+    "domain_penalty_lambda": 0.2,
+    "selection_algorithm": "A-optimal + soft domain penalty",
+    "stop_if_bank_exhausted": true
+  },
+  "items": {
+    "ANX_01": {
+      "id": "ANX_01",
+      "domain": "Anxiety",
+      "discrimination": 2.521818906208772,
+      "thresholds": [
+        -0.8966750989736717,
+        -0.23326532926759044,
+        0.1889996315274494,
+        0.9409407967138117
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt fearful",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "ANX_02": {
+      "id": "ANX_02",
+      "domain": "Anxiety",
+      "discrimination": 2.37202363926884,
+      "thresholds": [
+        -0.949342607030798,
+        -0.2494330573880364,
+        0.270655853235848,
+        0.9281198111829863
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I found it hard to focus on anything other than my anxiety",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "ANX_03": {
+      "id": "ANX_03",
+      "domain": "Anxiety",
+      "discrimination": 2.542580260654635,
+      "thresholds": [
+        -0.907637760987504,
+        -0.2503113523633359,
+        0.2865973316931438,
+        0.8713517816576961
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "My worries overwhelmed me",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "ANX_04": {
+      "id": "ANX_04",
+      "domain": "Anxiety",
+      "discrimination": 2.4592010401073967,
+      "thresholds": [
+        -0.9239421168778711,
+        -0.19962622200269522,
+        0.23586299861708046,
+        0.8877053402634867
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt uneasy",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "ANX_05": {
+      "id": "ANX_05",
+      "domain": "Anxiety",
+      "discrimination": 2.5282388897749724,
+      "thresholds": [
+        -0.916305055754118,
+        -0.22448509935468028,
+        0.22819393103838062,
+        0.9125962240704188
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt nervous",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "ANX_06": {
+      "id": "ANX_06",
+      "domain": "Anxiety",
+      "discrimination": 2.8226258222307212,
+      "thresholds": [
+        -0.8523893778783541,
+        -0.19919426358321268,
+        0.20580518933752812,
+        0.8457784521240385
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt like I needed help for my anxiety",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "DEP_01": {
+      "id": "DEP_01",
+      "domain": "Depression",
+      "discrimination": 3.4076096556707567,
+      "thresholds": [
+        -0.6568730491853753,
+        -0.14581998399268792,
+        0.17043796964041769,
+        0.6322550635376457
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt worthless",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "DEP_02": {
+      "id": "DEP_02",
+      "domain": "Depression",
+      "discrimination": 3.524498065691461,
+      "thresholds": [
+        -0.633777275302363,
+        -0.14311300300490953,
+        0.16237299561607213,
+        0.6145172826912003
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt helpless",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "DEP_03": {
+      "id": "DEP_03",
+      "domain": "Depression",
+      "discrimination": 3.292551309593652,
+      "thresholds": [
+        -0.6708149131979918,
+        -0.19100724367285007,
+        0.16908750167191264,
+        0.6927346551989284
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt depressed",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "DEP_04": {
+      "id": "DEP_04",
+      "domain": "Depression",
+      "discrimination": 3.722735639780217,
+      "thresholds": [
+        -0.5924262872974072,
+        -0.17343189579647406,
+        0.1476649195087104,
+        0.6181932635851706
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt hopeless",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "DEP_05": {
+      "id": "DEP_05",
+      "domain": "Depression",
+      "discrimination": 3.464252227370404,
+      "thresholds": [
+        -0.659341743243589,
+        -0.1720327798726267,
+        0.19222856302380945,
+        0.6391459600924067
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt like a failure",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "DEP_06": {
+      "id": "DEP_06",
+      "domain": "Depression",
+      "discrimination": 4.027342136181804,
+      "thresholds": [
+        -0.5969311109616439,
+        -0.16052344820148576,
+        0.1348619922930716,
+        0.6225925668700578
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "I felt unhappy",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "FAT_01": {
+      "id": "FAT_01",
+      "domain": "Fatigue",
+      "discrimination": 4.174039959441309,
+      "thresholds": [
+        -0.5510650360479965,
+        -0.12781309341283473,
+        0.10947597751466902,
+        0.5694021519461616
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "How often did you feel tired?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "FAT_02": {
+      "id": "FAT_02",
+      "domain": "Fatigue",
+      "discrimination": 4.269484847675803,
+      "thresholds": [
+        -0.5667782535432777,
+        -0.12464246212715901,
+        0.13726216490296989,
+        0.5541585507674661
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "How often did you experience extreme exhaustion?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "FAT_03": {
+      "id": "FAT_03",
+      "domain": "Fatigue",
+      "discrimination": 4.522177641833041,
+      "thresholds": [
+        -0.5143828511170525,
+        -0.12201556298080196,
+        0.1261963473134234,
+        0.5102020667844313
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "How often did you run out of energy?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "FAT_04": {
+      "id": "FAT_04",
+      "domain": "Fatigue",
+      "discrimination": 4.5967663594649935,
+      "thresholds": [
+        -0.49127910486504833,
+        -0.119042800524542,
+        0.1311978428065081,
+        0.4791240625830817
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "How often did your fatigue limit you at work (include work at home)?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "FAT_05": {
+      "id": "FAT_05",
+      "domain": "Fatigue",
+      "discrimination": 4.11473136615921,
+      "thresholds": [
+        -0.47076987451040575,
+        -0.13129657369008121,
+        0.12101312981417332,
+        0.4810533183863136
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "How often were you too tired to think clearly?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "FAT_06": {
+      "id": "FAT_06",
+      "domain": "Fatigue",
+      "discrimination": 4.7945233365119995,
+      "thresholds": [
+        -0.42286853679980074,
+        -0.11718645310752276,
+        0.12367715558986722,
+        0.416377834317456
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "How often were you too tired to take a bath or shower?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "FAT_07": {
+      "id": "FAT_07",
+      "domain": "Fatigue",
+      "discrimination": 0.08221234389016813,
+      "thresholds": [
+        -4.002127451921166,
+        -1.3620271501233416,
+        0.7470230657339625,
+        4.617131536310542
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+      "item_text": "How often did you have enough energy to exercise strenuously?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PF_01": {
+      "id": "PF_01",
+      "domain": "Physical_Function",
+      "discrimination": 6.0779924901498195,
+      "thresholds": [
+        -0.4113183014694027,
+        -0.11940662613157073,
+        0.12973663182187892,
+        0.4009882957790944
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "item_text": "Are you able to do chores such as vacuuming or yard work?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PF_02": {
+      "id": "PF_02",
+      "domain": "Physical_Function",
+      "discrimination": 5.670203403879878,
+      "thresholds": [
+        -0.3789164361650828,
+        -0.12044936858600136,
+        0.10141844731825655,
+        0.39794735743282755
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "item_text": "Are you able to get in and out of a car?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PF_03": {
+      "id": "PF_03",
+      "domain": "Physical_Function",
+      "discrimination": 5.434877591739882,
+      "thresholds": [
+        -0.39700537712656425,
+        -0.14564267642668074,
+        0.08719870699392172,
+        0.45544934655932306
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "item_text": "Are you able to go up and down stairs at a normal pace?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PF_04": {
+      "id": "PF_04",
+      "domain": "Physical_Function",
+      "discrimination": 5.987280645703392,
+      "thresholds": [
+        -0.39535959556194233,
+        -0.13189608843171494,
+        0.0858424808967112,
+        0.44141320309694626
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "item_text": "Are you able to run errands and shop?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PF_05": {
+      "id": "PF_05",
+      "domain": "Physical_Function",
+      "discrimination": 5.335007360516067,
+      "thresholds": [
+        -0.43131736952971456,
+        -0.1060820966564504,
+        0.09200406983127463,
+        0.44539539635489045
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "item_text": "Are you able to bend down and pick up clothing from the floor?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PF_06": {
+      "id": "PF_06",
+      "domain": "Physical_Function",
+      "discrimination": 5.771864266167088,
+      "thresholds": [
+        -0.4036569119311601,
+        -0.09384713470054339,
+        0.09253888716858784,
+        0.40496515946311556
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Without any difficulty",
+        "With a little difficulty",
+        "With some difficulty",
+        "With much difficulty",
+        "Unable to do"
+      ],
+      "item_text": "Are you able to lift 10 pounds (5 kg) above your shoulder?",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_01": {
+      "id": "PAR_01",
+      "domain": "Participation",
+      "discrimination": 6.111176606786,
+      "thresholds": [
+        -0.4530381010869354,
+        -0.09568029907867057,
+        0.1370703872578886,
+        0.4116480129077177
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have trouble doing all of my regular leisure activities with others",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_02": {
+      "id": "PAR_02",
+      "domain": "Participation",
+      "discrimination": 5.430436079522109,
+      "thresholds": [
+        -0.46472016366442453,
+        -0.08067543971904996,
+        0.1103877028807823,
+        0.43500790050269217
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have trouble doing all of the family activities that I want to do",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_03": {
+      "id": "PAR_03",
+      "domain": "Participation",
+      "discrimination": 6.637501606843525,
+      "thresholds": [
+        -0.38610914536191826,
+        -0.07318282454338083,
+        0.10195297451097497,
+        0.35733899539432434
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have trouble doing all of my usual work (include work at home)",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_04": {
+      "id": "PAR_04",
+      "domain": "Participation",
+      "discrimination": 5.5857080911210355,
+      "thresholds": [
+        -0.4124515535423722,
+        -0.10078985868752863,
+        0.11001912906771068,
+        0.4032222831621902
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have trouble doing all of the activities with friends that I want to do",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_05": {
+      "id": "PAR_05",
+      "domain": "Participation",
+      "discrimination": 5.732745657129853,
+      "thresholds": [
+        -0.3714178833430412,
+        -0.10379382306768713,
+        0.07947842785612662,
+        0.3957332785546012
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have to limit the things I do for fun with others",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_06": {
+      "id": "PAR_06",
+      "domain": "Participation",
+      "discrimination": 6.15163664817885,
+      "thresholds": [
+        -0.4054528571127587,
+        -0.09721269412229674,
+        0.09969729711742917,
+        0.4029682541176258
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have to limit my regular activities with friends",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_07": {
+      "id": "PAR_07",
+      "domain": "Participation",
+      "discrimination": 6.207652444158335,
+      "thresholds": [
+        -0.40577585832103097,
+        -0.09386122362519729,
+        0.10347761413119286,
+        0.3961594678150356
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have to limit my regular family activities",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "PAR_08": {
+      "id": "PAR_08",
+      "domain": "Participation",
+      "discrimination": 6.067666384164626,
+      "thresholds": [
+        -0.39298042111744574,
+        -0.08535993597070057,
+        0.10078669722535179,
+        0.37755365986279427
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Always",
+        "Usually",
+        "Sometimes",
+        "Rarely",
+        "Never"
+      ],
+      "item_text": "I have trouble doing all of the work that is really important to me (include work at home)",
+      "higher_theta_means": "worse",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q1": {
+      "id": "SRS_Q1",
+      "domain": "SRS_Pain",
+      "discrimination": 0.6226782584170458,
+      "thresholds": [
+        0.9934286562092585,
+        2.4583645331818045,
+        3.7304872731098078
+      ],
+      "n_categories": 4,
+      "K": 4,
+      "response_options": [
+        "Mild",
+        "Moderate",
+        "Moderate to severe",
+        "Severe"
+      ],
+      "item_text": "Which one of the following best describes the amount of pain you have experienced during the past 6 months?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q2": {
+      "id": "SRS_Q2",
+      "domain": "SRS_Pain",
+      "discrimination": 0.6566785856703425,
+      "thresholds": [
+        0.6484847961330912,
+        2.0260249657713363,
+        3.267904370285523
+      ],
+      "n_categories": 4,
+      "K": 4,
+      "response_options": [
+        "Mild",
+        "Moderate",
+        "Moderate to severe",
+        "Severe"
+      ],
+      "item_text": "Which one of the following best describes the amount of pain you have experienced over the last month?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q3": {
+      "id": "SRS_Q3",
+      "domain": "SRS_Mental_Health",
+      "discrimination": 1.1530004498708308,
+      "thresholds": [
+        -0.7887935424834955,
+        0.07948488542533827,
+        0.8040453738421387,
+        1.9688247040485933
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "None of the time",
+        "A little of the time",
+        "Some of the time",
+        "Most of the time",
+        "All of the time"
+      ],
+      "item_text": "During the past 6 months have you been a very nervous person?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q4": {
+      "id": "SRS_Q4",
+      "domain": "SRS_Self_Image",
+      "discrimination": 0.7364784876284354,
+      "thresholds": [
+        0.4975631175240506,
+        1.2308747449936055,
+        1.6955097356432112,
+        2.3982367859693
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Very happy",
+        "Somewhat happy",
+        "Neither happy nor unhappy",
+        "Somewhat unhappy",
+        "Very unhappy"
+      ],
+      "item_text": "If you had to spend the rest of your life with your back shape as it is right now, how would you feel about it?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q5": {
+      "id": "SRS_Q5",
+      "domain": "SRS_Function",
+      "discrimination": 0.4224958943150025,
+      "thresholds": [
+        0.9748942672467307,
+        2.242099779243974,
+        2.912246984482751,
+        3.95586158958767
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Full activities without restriction",
+        "Moderate labor and moderate sports",
+        "Light labor and light sports",
+        "Primarily no activity",
+        "Bedridden"
+      ],
+      "item_text": "What is your current level of activity?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q6": {
+      "id": "SRS_Q6",
+      "domain": "SRS_Self_Image",
+      "discrimination": 0.7385121157175488,
+      "thresholds": [
+        0.4451625689880716,
+        1.1560325289218545,
+        1.6506212489753929,
+        2.3820762580794383
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Very good",
+        "Good",
+        "Fair",
+        "Bad",
+        "Very bad"
+      ],
+      "item_text": "How do you look in clothes?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q7": {
+      "id": "SRS_Q7",
+      "domain": "SRS_Mental_Health",
+      "discrimination": 0.9672660693322276,
+      "thresholds": [
+        -0.6224223309694765,
+        0.3627593945641955,
+        0.9876691441348372,
+        1.7818312332864834
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Very often"
+      ],
+      "item_text": "In the past 6 months have you felt so down in the dumps that nothing could cheer you up?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q8": {
+      "id": "SRS_Q8",
+      "domain": "SRS_Pain",
+      "discrimination": 0.9717645124288223,
+      "thresholds": [
+        0.5827724867937071,
+        1.2465589007916442,
+        1.7131961626995786,
+        2.3245973100359714
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Very often"
+      ],
+      "item_text": "Do you experience back pain when at rest?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q9": {
+      "id": "SRS_Q9",
+      "domain": "SRS_Function",
+      "discrimination": 0.43027523494390846,
+      "thresholds": [
+        0.8550560878047827,
+        2.156200668192982,
+        2.891153171786415,
+        4.090094577153056
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "100% normal",
+        "75% normal",
+        "50% normal",
+        "25% normal",
+        "0% normal"
+      ],
+      "item_text": "What is your current level of work/school activity?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q10": {
+      "id": "SRS_Q10",
+      "domain": "SRS_Self_Image",
+      "discrimination": 0.4430949818815766,
+      "thresholds": [
+        0.5436131292444027,
+        1.7011073353470119,
+        2.551136697874742,
+        3.7503569256779947
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Very good",
+        "Good",
+        "Fair",
+        "Poor",
+        "Very Poor"
+      ],
+      "item_text": "Which of the following best describes the appearance of your trunk; defined as the human body except for the head and extremities?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q11": {
+      "id": "SRS_Q11",
+      "domain": "SRS_Pain",
+      "discrimination": 0.6291560879524783,
+      "thresholds": [
+        1.2236806618260558,
+        2.7190150416158416,
+        3.7484428384464668
+      ],
+      "n_categories": 4,
+      "K": 4,
+      "response_options": [
+        "Non-narcotics weekly or less (e.g., aspirin, Tylenol, Ibuprofen)",
+        "Non-narcotics daily",
+        "Narcotics weekly or less (e.g. Tylenol III, Lorcet, Percocet)",
+        "Narcotics daily"
+      ],
+      "item_text": "Which one of the following best describes your pain medication use for back pain?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q12": {
+      "id": "SRS_Q12",
+      "domain": "SRS_Function",
+      "discrimination": 0.6256295367679583,
+      "thresholds": [
+        0.9069851003905895,
+        1.7208914289760142,
+        2.2623141491764596,
+        2.8534384310227674
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Very Often"
+      ],
+      "item_text": "Does your back limit your ability to do things around the house?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q13": {
+      "id": "SRS_Q13",
+      "domain": "SRS_Mental_Health",
+      "discrimination": 0.8228805991564846,
+      "thresholds": [
+        -0.5092916804798006,
+        0.5509657248346475,
+        1.1274868692619155,
+        1.951483426657021
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "All of the time",
+        "Most of the time",
+        "Some of the time",
+        "A little of the time",
+        "None of the time"
+      ],
+      "item_text": "Have you felt calm and peaceful during the past 6 months?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q14": {
+      "id": "SRS_Q14",
+      "domain": "SRS_Self_Image",
+      "discrimination": 0.6893600519415607,
+      "thresholds": [
+        0.4675747481797483,
+        2.094026765968845,
+        3.2287109973372132
+      ],
+      "n_categories": 4,
+      "K": 4,
+      "response_options": [
+        "Slightly",
+        "Mildly",
+        "Moderately",
+        "Severely"
+      ],
+      "item_text": "Do you feel that your back condition affects your personal relationships?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q15": {
+      "id": "SRS_Q15",
+      "domain": "SRS_Function",
+      "discrimination": 0.8024199545665923,
+      "thresholds": [
+        -0.04086517799633905,
+        1.2706745500909455,
+        2.315900402198098
+      ],
+      "n_categories": 4,
+      "K": 4,
+      "response_options": [
+        "Slightly",
+        "Mildly",
+        "Moderately",
+        "Severely"
+      ],
+      "item_text": "Are you and/or your family experiencing financial difficulties because of your back?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q16": {
+      "id": "SRS_Q16",
+      "domain": "SRS_Mental_Health",
+      "discrimination": 1.1558963213889781,
+      "thresholds": [
+        -0.46609472025951093,
+        0.33079858354685576,
+        0.8436785722098444,
+        1.5536001135447652
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Very often"
+      ],
+      "item_text": "In the past 6 months have you felt down hearted and blue?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q17": {
+      "id": "SRS_Q17",
+      "domain": "SRS_Pain",
+      "discrimination": 0.3726433062069466,
+      "thresholds": [
+        1.6922827324088054,
+        2.8784296957819677,
+        3.5345732509412207,
+        4.5962016468343325
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "0 days",
+        "1 day",
+        "2 days",
+        "3 days",
+        "4 or more days"
+      ],
+      "item_text": "In the last 3 months have you taken any days off of work, including household work, or school because of back pain?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q18": {
+      "id": "SRS_Q18",
+      "domain": "SRS_Function",
+      "discrimination": 0.38217449370831685,
+      "thresholds": [
+        1.44707294577226,
+        2.5851035573681713,
+        3.2916623693473266,
+        4.306505109124162
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Very often"
+      ],
+      "item_text": "Does your back condition limit your going out with friends/family?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q19": {
+      "id": "SRS_Q19",
+      "domain": "SRS_Self_Image",
+      "discrimination": 0.7618629119039073,
+      "thresholds": [
+        0.4467341624378535,
+        1.169581827040362,
+        1.7231936067612725,
+        2.4510724771989247
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Yes, very",
+        "Yes, somewhat",
+        "Neither attractive nor unattractive",
+        "No, not very much",
+        "No, not at all"
+      ],
+      "item_text": "Do you feel attractive with your current back condition?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q20": {
+      "id": "SRS_Q20",
+      "domain": "SRS_Mental_Health",
+      "discrimination": 1.1560042622711626,
+      "thresholds": [
+        -0.48967920975307094,
+        0.284672006364224,
+        0.81798855355196,
+        1.5191984089941672
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "All of the time",
+        "Most of the time",
+        "Some of the time",
+        "A little of the time",
+        "None of the time"
+      ],
+      "item_text": "Have you been a happy person during the past 6 months?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q21": {
+      "id": "SRS_Q21",
+      "domain": "SRS_Satisfaction",
+      "discrimination": 0.6754420684202433,
+      "thresholds": [
+        0.7791032043099478,
+        1.604738098937574,
+        2.051931204935753,
+        2.9543197247874247
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Very satisfied",
+        "Satisfied",
+        "Neither satisfied nor unsatisfied",
+        "Unsatisfied",
+        "Very unsatisfied"
+      ],
+      "item_text": "Are you satisfied with the results of your back management?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    },
+    "SRS_Q22": {
+      "id": "SRS_Q22",
+      "domain": "SRS_Satisfaction",
+      "discrimination": 0.9068619448400614,
+      "thresholds": [
+        0.10987648482058364,
+        0.9317303670944518,
+        1.5125773501094955,
+        2.4373660648342783
+      ],
+      "n_categories": 5,
+      "K": 5,
+      "response_options": [
+        "Definitely yes",
+        "Probably yes",
+        "Not sure",
+        "Probably not",
+        "Definitely not"
+      ],
+      "item_text": "Would you have the same management again if you had the same condition?",
+      "higher_theta_means": "better",
+      "calibration": "MML-GRM, N=969 spine surgery patients"
+    }
+  }
+}
