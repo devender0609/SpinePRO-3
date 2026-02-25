@@ -554,8 +554,8 @@ function checkStop(bank, s){
       SRS_Self_Image: 1,
       Physical_Function: 1,
       Fatigue: 1,
-      Anxiety: 1,
-      Depression: 1
+      Anxiety: 2,
+      Depression: 2
     };
 
     let srs_min_met = true;
