@@ -298,7 +298,12 @@ const JointCATEngine = (() => {
     let bestScore = -Infinity;
 
     // IMPROVED: Stronger domain balancing with quadratic penalty
-    const lambda = 0.5;
+    // Allow tuning via policy/config:
+    // - cfg.domain_penalty_lambda (default 0.5)
+    // - cfg.domain_weights (e.g., { Participation: 1.8, Anxiety: 1.2 })
+    const cfg = bank.cat_config || {};
+    const lambda = (typeof cfg.domain_penalty_lambda === "number") ? cfg.domain_penalty_lambda : 0.5;
+    const domainWeights = (cfg.domain_weights && typeof cfg.domain_weights === "object") ? cfg.domain_weights : {};
 
     for(const id of candidateIds){
       const it=bank.items[id];
@@ -317,6 +322,11 @@ const JointCATEngine = (() => {
       // IMPROVED: Domain balancing with quadratic penalty and zero-count boost
       const domain_count = s.domain_counts[it.domain] || 0;
       let penalty = lambda * (domain_count * domain_count);
+
+      // Domain weighting: reduce penalty for prioritized domains to increase their exposure.
+      // weight > 1 -> more likely selected; weight < 1 -> less likely selected.
+      const w = (typeof domainWeights[it.domain] === "number" && isFinite(domainWeights[it.domain])) ? domainWeights[it.domain] : 1.0;
+      penalty = penalty / Math.max(0.25, w);
 
       // Strong boost for under-represented domains
       if (domain_count === 0) {

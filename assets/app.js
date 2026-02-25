@@ -434,18 +434,16 @@
       for (const d of domainArr) {
         const name = d.domain ?? d.name ?? "";
         const theta = toNumber(d.theta);
-        const se = toNumber(d.se ?? d.SE ?? d.stderr ?? d.standard_error ?? d.standardError ?? d.sem ?? d.se_theta ?? d.seTheta);
         const tRaw = toNumber(d.t_score ?? d.tScore ?? d.t);
         const t = (tRaw !== null) ? tRaw : (theta !== null ? (50 + 10*theta) : null);
-        rows.push({ name, theta, t, se });
+        rows.push({ name, theta, t });
       }
     } else if (domainObj) {
       for (const [name, v] of Object.entries(domainObj)) {
         const theta = toNumber(v.theta);
-        const se = toNumber(v.se ?? v.SE ?? v.stderr ?? v.standard_error ?? v.standardError ?? v.sem ?? v.se_theta ?? v.seTheta);
         const tRaw = toNumber(v.t_score ?? v.tScore ?? v.t);
         const t = (tRaw !== null) ? tRaw : (theta !== null ? (50 + 10*theta) : null);
-        rows.push({ name, theta, t, se });
+        rows.push({ name, theta, t });
       }
     }
 // Pull session to compute SRS classic means from administered items
@@ -498,16 +496,6 @@
 
     function fmt1(x){ const n = toNumber(x); return (n !== null) ? n.toFixed(1) : ""; }
 
-    // Precision flagging (does not affect scoring; display-only)
-    function precisionFlag(isSRS, se){
-      const n = toNumber(se);
-      if (n === null) return null;
-      if (!isSRS) {
-        return (n > 0.45) ? "⚠ Lower precision estimate – interpret with caution" : null;
-      }
-      return (n > 0.65) ? "⚠ Lower precision estimate – interpret with caution" : null;
-    }
-
     // PROMIS category + interpretation
     // Official PROMIS T-score thresholds (from PROMIS scoring manuals):
     // Symptom domains (Anxiety, Depression, Fatigue, Pain Interference):
@@ -552,8 +540,6 @@ function promisInterpretation(domain){
       .map(r => ({
         domain: PROMIS_LABELS[r.name] || r.name,
         t: r.t,
-        se: r.se,
-        flag: precisionFlag(false, r.se),
         cat: promisCategory(r.name, r.t),
         interp: promisInterpretation(r.name)
       }));
@@ -617,8 +603,6 @@ function promisInterpretation(domain){
         return {
           domain: SRS_LABELS[r.name] || r.name,
           t: r.t,
-          se: r.se,
-          flag: precisionFlag(true, r.se),
           mean,
           cat: srsCategory(r.name, r.t, mean),
           interp: srsInterpretation(r.name)
@@ -655,7 +639,7 @@ function promisInterpretation(domain){
                 <td>${escapeHtml(r.domain)}</td>
                 <td>${fmt1(r.t)}</td>
                 <td><span class="pill ${r.cat === 'Severe' ? 'pill-severe' : r.cat === 'Moderate' ? 'pill-moderate' : r.cat === 'Mild' ? 'pill-mild' : 'pill-none'}">${escapeHtml(r.cat)}</span></td>
-                <td>${escapeHtml(r.interp)}${r.flag ? `<div class="smallMuted" style="color:#a94442;margin-top:4px">${escapeHtml(r.flag)}</div>` : ''}</td>
+                <td>${escapeHtml(r.interp)}</td>
               </tr>
             `).join("")}
           </tbody>
@@ -684,7 +668,7 @@ function promisInterpretation(domain){
                 <td>${fmt1(r.t)}</td>
                 <td>${r.mean !== null ? fmt1(r.mean) : '<span class="smallMuted">—</span>'}</td>
                 <td><span class="pill ${r.cat === 'Severe' ? 'pill-severe' : r.cat === 'Moderate' ? 'pill-moderate' : r.cat === 'Mild' ? 'pill-mild' : 'pill-none'}">${escapeHtml(r.cat)}</span></td>
-                <td>${escapeHtml(r.interp)}${r.flag ? `<div class="smallMuted" style="color:#a94442;margin-top:4px">${escapeHtml(r.flag)}</div>` : ''}</td>
+                <td>${escapeHtml(r.interp)}</td>
               </tr>
             `).join("")}
           </tbody>
