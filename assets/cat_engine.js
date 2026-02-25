@@ -525,22 +525,63 @@ const JointCATEngine = (() => {
 function checkStop(bank, s){
     const cfg = bank.cat_config || {};
     const n = s.administered.length;
+    const maxItems = (cfg.max_items ?? 40);
+    const minItems = (cfg.min_items ?? 0);
 
-    // IMPROVED: Enforce minimum items per domain
+    // Enforce minimum coverage without preventing termination at maxItems.
+    // Goal: avoid zero-item domains (esp. Participation, SRS Mental Health, SRS Satisfaction).
     const srs_domains = ['SRS_Pain', 'SRS_Function', 'SRS_Self_Image', 'SRS_Mental_Health', 'SRS_Satisfaction'];
     const promis_domains = ['Physical_Function', 'Participation', 'Fatigue', 'Anxiety', 'Depression'];
-    
-    const min_srs_items = 3;
-    const min_promis_items = 2;
+
+    const min_srs_items = 1;
+    const min_promis_items = 1;
 
     let srs_min_met = true;
     let promis_min_met = true;
 
     for (const domain of srs_domains) {
-      if ((s.domain_counts[domain] || 0) < min_srs_items) {
-        srs_min_met = false;
-        break;
+      if ((s.domain_counts[domain] || 0) < min_srs_items) { srs_min_met = false; break; }
+    }
+    for (const domain of promis_domains) {
+      if ((s.domain_counts[domain] || 0) < min_promis_items) { promis_min_met = false; break; }
+    }
+
+    // Respect configured minimum items first
+    if (n < minItems) return { stop:false, reason:null };
+
+    // Respect domain coverage rule (e.g., >=4 domains) if configured
+    if (cfg.domains_min != null) {
+      const covered = new Set(s.administered.map(x => x.domain));
+      if (covered.size < cfg.domains_min) {
+        // But still stop if we hit the max items
+        if (n >= maxItems) return { stop:true, reason:"max_items" };
+        return { stop:false, reason:null };
       }
+    }
+
+    // If minimum per-domain exposure not met, keep going until maxItems (do NOT exceed maxItems)
+    if (!srs_min_met || !promis_min_met) {
+      if (n >= maxItems) return { stop:true, reason:"max_items" };
+      return { stop:false, reason:null };
+    }
+
+    // Precision-based stopping
+    const gse = globalSE(s);
+    const thr = (cfg.global_SE_threshold ?? cfg.target_global_se ?? 0.35);
+    if (gse !== null && gse <= thr) return { stop:true, reason:"precision_reached" };
+
+    // Hard cap
+    if (n >= maxItems) return { stop:true, reason:"max_items" };
+
+    // Bank exhausted
+    if (cfg.stop_if_bank_exhausted) {
+      const cand = eligibleCandidates(bank, s);
+      if (!cand || cand.length === 0) return { stop:true, reason:"bank_exhausted" };
+    }
+
+    return { stop:false, reason:null };
+  }
+
     }
 
     for (const domain of promis_domains) {
