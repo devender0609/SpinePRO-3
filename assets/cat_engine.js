@@ -582,42 +582,6 @@ function checkStop(bank, s){
     return { stop:false, reason:null };
   }
 
-    }
-
-    for (const domain of promis_domains) {
-      if ((s.domain_counts[domain] || 0) < min_promis_items) {
-        promis_min_met = false;
-        break;
-      }
-    }
-
-    if (n < Math.max(15, cfg.min_items ?? 0)) return { stop:false, reason:null };
-
-    if (!srs_min_met || !promis_min_met) {
-      if (n >= 40) return { stop:true, reason:"max_items_safety" };
-      return { stop:false, reason:null };
-    }
-
-    if (cfg.domains_min != null) {
-      const covered = new Set(s.administered.map(x => x.domain));
-      if (covered.size < cfg.domains_min) return { stop:false, reason:null };
-    }
-
-    const gse = globalSE(s);
-    const thr = (cfg.global_SE_threshold ?? cfg.target_global_se ?? 0.35);
-    if (gse !== null && gse <= thr) return { stop:true, reason:"precision_reached" };
-
-    if (n >= (cfg.max_items ?? 40)) return { stop:true, reason:"max_items" };
-
-    if (cfg.stop_if_bank_exhausted) {
-      const cand = eligibleCandidates(bank, s);
-      if (!cand || cand.length === 0) return { stop:true, reason:"bank_exhausted" };
-    }
-
-    return { stop:false, reason:null };
-  }
-
-
   function finish(bank, norms, s, reason){
     const normsMap = (norms && norms.domains) ? norms.domains : norms;
     s.is_finished = true;
@@ -841,4 +805,3 @@ function mulberry32(seed) {
     return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
   };
 }
-
