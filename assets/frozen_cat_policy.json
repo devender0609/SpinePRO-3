@@ -1,5 +1,6 @@
 {
   "global_SE_threshold": 0.35,
+  "promis_SE_threshold": 0.40,
   "domain_penalty_lambda": 0.2,
   "min_items": 8,
   "max_items": 18,
