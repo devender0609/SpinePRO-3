@@ -525,25 +525,39 @@ const JointCATEngine = (() => {
 function checkStop(bank, s){
     const cfg = bank.cat_config || {};
     const n = s.administered.length;
-    const maxItems = (cfg.max_items ?? 40);
+    const maxItems = (cfg.max_items ?? 18);
     const minItems = (cfg.min_items ?? 0);
 
     // Enforce minimum coverage without preventing termination at maxItems.
-    // Goal: avoid zero-item domains (esp. Participation, SRS Mental Health, SRS Satisfaction).
+    // Goal: avoid zero-item domains and reduce prior-only (T=50/SD=0) failures.
     const srs_domains = ['SRS_Pain', 'SRS_Function', 'SRS_Self_Image', 'SRS_Mental_Health', 'SRS_Satisfaction'];
     const promis_domains = ['Physical_Function', 'Participation', 'Fatigue', 'Anxiety', 'Depression'];
 
-    const min_srs_items = 1;
-    const min_promis_items = 1;
+    // Per-domain minimum exposure (must be feasible within maxItems).
+    // Keep SRS minima modest (small pools / lower discrimination).
+    const min_items_by_domain = {
+      Participation: 2,
+      SRS_Mental_Health: 1,
+      SRS_Satisfaction: 1,
+      SRS_Pain: 1,
+      SRS_Function: 1,
+      SRS_Self_Image: 1,
+      Physical_Function: 1,
+      Fatigue: 1,
+      Anxiety: 1,
+      Depression: 1
+    };
 
     let srs_min_met = true;
     let promis_min_met = true;
 
     for (const domain of srs_domains) {
-      if ((s.domain_counts[domain] || 0) < min_srs_items) { srs_min_met = false; break; }
+      const req = (min_items_by_domain[domain] ?? 1);
+      if ((s.domain_counts[domain] || 0) < req) { srs_min_met = false; break; }
     }
     for (const domain of promis_domains) {
-      if ((s.domain_counts[domain] || 0) < min_promis_items) { promis_min_met = false; break; }
+      const req = (min_items_by_domain[domain] ?? 1);
+      if ((s.domain_counts[domain] || 0) < req) { promis_min_met = false; break; }
     }
 
     // Respect configured minimum items first
@@ -566,9 +580,26 @@ function checkStop(bank, s){
     }
 
     // Precision-based stopping
-    const gse = globalSE(s);
-    const thr = (cfg.global_SE_threshold ?? cfg.target_global_se ?? 0.35);
-    if (gse !== null && gse <= thr) return { stop:true, reason:"precision_reached" };
+    // NOTE: In mixed PROMIS+SRS banks, SRS domains (small pools, lower discrimination) may never reach the same
+    // precision targets as PROMIS within a short test. To avoid forcing maxItems every time, we allow stopping
+    // based on PROMIS-only global precision once minimum domain exposure requirements are met.
+    const thr_all = (cfg.global_SE_threshold ?? cfg.target_global_se ?? 0.35);
+    const gse_all = globalSE(s);
+
+    // PROMIS-only RMS SE
+    const promis_ses = promis_domains
+      .map(d => s.se[d])
+      .filter(v => typeof v === "number");
+    const gse_promis = (promis_ses.length)
+      ? Math.sqrt(promis_ses.reduce((acc,v)=>acc+v*v,0)/promis_ses.length)
+      : null;
+
+    const thr_promis = (cfg.promis_SE_threshold ?? thr_all);
+
+    // Prefer full precision when achievable; otherwise allow PROMIS precision stop.
+    if (gse_all !== null && gse_all <= thr_all) return { stop:true, reason:"precision_reached_all_domains" };
+    if (gse_promis !== null && gse_promis <= thr_promis) return { stop:true, reason:"precision_reached_promis" };
+
 
     // Hard cap
     if (n >= maxItems) return { stop:true, reason:"max_items" };
