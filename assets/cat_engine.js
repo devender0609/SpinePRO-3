@@ -265,7 +265,6 @@ const JointCATEngine = (() => {
     const adj = s.constraints_adj || {};
     const administeredIds = new Set(s.administered.map(a=>a.item_id));
     function allowed(id){
-      // cannot violate any pair constraint with previously administered items
       const partners = adj[id];
       if (!partners) return true;
       for (const prev of administeredIds){
@@ -279,7 +278,6 @@ const JointCATEngine = (() => {
     const D=bank.domains.length;
     const domIndex = Object.fromEntries(bank.domains.map((d,i)=>[d,i]));
 
-    // Stage 1: ensure at least 1 item per domain if possible, until min_items reached
     const need = coverageNeeded(bank, s);
     let candidateIds = remaining;
     candidateIds = candidateIds.filter(allowed);
@@ -291,23 +289,23 @@ const JointCATEngine = (() => {
     candidateIds = candidateIds.filter(allowed);
     if (!candidateIds.length) return null;
 
-    // Choose item maximizing expected trace reduction (A-optimal)
-    // Randomize the *first* item to avoid identical order across sessions
     if ((s.administered||[]).length === 0 && candidateIds.length){
       const j = Math.floor((s.rng ? s.rng() : Math.random()) * candidateIds.length);
       return candidateIds[j];
     }
 
     let bestId = candidateIds[0];
-    let bestGain = -1;
+    let bestScore = -Infinity;
+
+    // IMPROVED: Stronger domain balancing with quadratic penalty
+    const lambda = 0.5;
 
     for(const id of candidateIds){
       const it=bank.items[id];
       const d = domIndex[it.domain];
       const th = s.theta_vec[d];
       const info = itemInfo(th, it);
-      // trace reduction for rank-1 update on covariance
-      // gain = (info * sum_i Sigma_{i d}^2) / (1 + info*Sigma_dd)
+      
       let colSq=0;
       for(let i=0;i<D;i++){
         const v = s.Sigma[i][d];
@@ -315,11 +313,26 @@ const JointCATEngine = (() => {
       }
       const denom = 1 + info * s.Sigma[d][d];
       const gain = (info * colSq) / denom;
-      if (gain > bestGain + 1e-12){
-        bestGain = gain;
+
+      // IMPROVED: Domain balancing with quadratic penalty and zero-count boost
+      const domain_count = s.domain_counts[it.domain] || 0;
+      let penalty = lambda * (domain_count * domain_count);
+
+      // Strong boost for under-represented domains
+      if (domain_count === 0) {
+        penalty -= 3.0;
+      } else if (domain_count === 1) {
+        penalty -= 1.5;
+      } else if (domain_count === 2 && it.domain.startsWith('SRS_')) {
+        penalty -= 0.5;
+      }
+
+      const score = gain - penalty;
+
+      if (score > bestScore + 1e-12){
+        bestScore = score;
         bestId = id;
-      } else if (Math.abs(gain - bestGain) <= 1e-12 && bestId !== null && (s.rng ? s.rng() : Math.random()) < 0.5){
-        // tie-breaker to avoid identical item order each run
+      } else if (Math.abs(score - bestScore) <= 1e-12 && bestId !== null && (s.rng ? s.rng() : Math.random()) < 0.5){
         bestId = id;
       }
     }
@@ -513,7 +526,36 @@ function checkStop(bank, s){
     const cfg = bank.cat_config || {};
     const n = s.administered.length;
 
-    if (n < (cfg.min_items ?? 0)) return { stop:false, reason:null };
+    // IMPROVED: Enforce minimum items per domain
+    const srs_domains = ['SRS_Pain', 'SRS_Function', 'SRS_Self_Image', 'SRS_Mental_Health', 'SRS_Satisfaction'];
+    const promis_domains = ['Physical_Function', 'Participation', 'Fatigue', 'Anxiety', 'Depression'];
+    
+    const min_srs_items = 3;
+    const min_promis_items = 2;
+
+    let srs_min_met = true;
+    let promis_min_met = true;
+
+    for (const domain of srs_domains) {
+      if ((s.domain_counts[domain] || 0) < min_srs_items) {
+        srs_min_met = false;
+        break;
+      }
+    }
+
+    for (const domain of promis_domains) {
+      if ((s.domain_counts[domain] || 0) < min_promis_items) {
+        promis_min_met = false;
+        break;
+      }
+    }
+
+    if (n < Math.max(15, cfg.min_items ?? 0)) return { stop:false, reason:null };
+
+    if (!srs_min_met || !promis_min_met) {
+      if (n >= 40) return { stop:true, reason:"max_items_safety" };
+      return { stop:false, reason:null };
+    }
 
     if (cfg.domains_min != null) {
       const covered = new Set(s.administered.map(x => x.domain));
@@ -524,7 +566,7 @@ function checkStop(bank, s){
     const thr = (cfg.global_SE_threshold ?? cfg.target_global_se ?? 0.35);
     if (gse !== null && gse <= thr) return { stop:true, reason:"precision_reached" };
 
-    if (n >= (cfg.max_items ?? Infinity)) return { stop:true, reason:"max_items" };
+    if (n >= (cfg.max_items ?? 40)) return { stop:true, reason:"max_items" };
 
     if (cfg.stop_if_bank_exhausted) {
       const cand = eligibleCandidates(bank, s);
