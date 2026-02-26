@@ -734,11 +734,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have trouble doing all of my regular leisure activities with others",
       "higher_theta_means": "worse",
@@ -757,11 +757,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have trouble doing all of the family activities that I want to do",
       "higher_theta_means": "worse",
@@ -780,11 +780,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have trouble doing all of my usual work (include work at home)",
       "higher_theta_means": "worse",
@@ -803,11 +803,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have trouble doing all of the activities with friends that I want to do",
       "higher_theta_means": "worse",
@@ -826,11 +826,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have to limit the things I do for fun with others",
       "higher_theta_means": "worse",
@@ -849,11 +849,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have to limit my regular activities with friends",
       "higher_theta_means": "worse",
@@ -872,11 +872,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have to limit my regular family activities",
       "higher_theta_means": "worse",
@@ -895,11 +895,11 @@
       "n_categories": 5,
       "K": 5,
       "response_options": [
-        "Always",
-        "Usually",
-        "Sometimes",
+        "Never",
         "Rarely",
-        "Never"
+        "Sometimes",
+        "Usually",
+        "Always"
       ],
       "item_text": "I have trouble doing all of the work that is really important to me (include work at home)",
       "higher_theta_means": "worse",

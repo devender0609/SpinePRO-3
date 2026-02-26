@@ -381,10 +381,6 @@ const JointCATEngine = (() => {
     }
     const priorPrec = priorVar.map(v => 1.0 / v); // precision = 1/variance
 
-    // Optional: reduce MAP shrinkage by scaling prior precision (<1.0 = weaker prior)
-    const priorScale = (policy && Number.isFinite(policy.prior_precision_scale)) ? policy.prior_precision_scale : 1.0;
-    for(let d=0; d<D; d++){ priorPrec[d] *= priorScale; }
-
     // Initialize theta from session, converting nulls to 0
     let theta = new Array(D).fill(0);
     if(s.theta_vec){
@@ -443,7 +439,8 @@ const JointCATEngine = (() => {
         //   - Physical_Function: Flip (display 0=best, calib 0=worst)
         //   - Participation: Flip (display 0=worst, calib 0=best — net result same as flip)
         //   - All SRS (better): Flip (display 0=best, calib 0=worst)
-        const needsFlip = (it.higher_theta_means === 'better');
+        const needsFlip = (it.domain === 'Physical_Function' ||
+                           (it.higher_theta_means === 'better'));
         if (needsFlip) {
           resp = (K - 1) - resp;
           // Re-clamp after flip (should be redundant but ensures safety)
@@ -687,13 +684,7 @@ function checkStop(bank, s){
       const pct = toPercentile(theta, norm);
       const sev = severityBand(theta, norm);
 
-      // Convert theta to T-score.
-      // - PROMIS symptom domains (Anxiety/Depression/Fatigue): higher theta = worse => higher T = worse
-      // - PROMIS function domains (Physical_Function/Participation): item bank calibrated as higher theta = worse,
-      //   but we report T so higher = better function (PROMIS convention) => invert sign
-      // - SRS domains: higher theta = better => higher T = better
-      const isPromisFunction = (did === 'Physical_Function' || did === 'Participation');
-      const t_score = isPromisFunction ? (50 - 10*theta) : (50 + 10*theta);
+      const t_score = 50 + 10*theta;
       domainResults.push({
         domain: did,
         theta,

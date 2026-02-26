@@ -336,11 +336,10 @@
       window.ITEMBANK = bank;
       window.DOMAIN_NORMS = norms;
       window.CAT_CONSTRAINTS = constraints;
-      window.CAT_POLICY = policy;
-      // Some engine builds reference a global `policy` identifier.
-      // Provide aliases so those builds do not throw `policy is not defined`.
       window.policy = policy;
       globalThis.policy = policy;
+
+      window.CAT_POLICY = policy;
       window.__CAT_ASSETS__ = { bank, norms, constraints, policy };
     } catch (e) {
       console.error(e);
