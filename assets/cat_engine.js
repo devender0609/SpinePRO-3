@@ -381,6 +381,10 @@ const JointCATEngine = (() => {
     }
     const priorPrec = priorVar.map(v => 1.0 / v); // precision = 1/variance
 
+    // Optional: reduce MAP shrinkage by scaling prior precision (<1.0 = weaker prior)
+    const priorScale = (policy && Number.isFinite(policy.prior_precision_scale)) ? policy.prior_precision_scale : 1.0;
+    for(let d=0; d<D; d++){ priorPrec[d] *= priorScale; }
+
     // Initialize theta from session, converting nulls to 0
     let theta = new Array(D).fill(0);
     if(s.theta_vec){
@@ -439,8 +443,7 @@ const JointCATEngine = (() => {
         //   - Physical_Function: Flip (display 0=best, calib 0=worst)
         //   - Participation: Flip (display 0=worst, calib 0=best — net result same as flip)
         //   - All SRS (better): Flip (display 0=best, calib 0=worst)
-        const needsFlip = (it.domain === 'Physical_Function' ||
-                           (it.higher_theta_means === 'better'));
+        const needsFlip = (it.higher_theta_means === 'better');
         if (needsFlip) {
           resp = (K - 1) - resp;
           // Re-clamp after flip (should be redundant but ensures safety)
@@ -684,7 +687,13 @@ function checkStop(bank, s){
       const pct = toPercentile(theta, norm);
       const sev = severityBand(theta, norm);
 
-      const t_score = 50 + 10*theta;
+      // Convert theta to T-score.
+      // - PROMIS symptom domains (Anxiety/Depression/Fatigue): higher theta = worse => higher T = worse
+      // - PROMIS function domains (Physical_Function/Participation): item bank calibrated as higher theta = worse,
+      //   but we report T so higher = better function (PROMIS convention) => invert sign
+      // - SRS domains: higher theta = better => higher T = better
+      const isPromisFunction = (did === 'Physical_Function' || did === 'Participation');
+      const t_score = isPromisFunction ? (50 - 10*theta) : (50 + 10*theta);
       domainResults.push({
         domain: did,
         theta,
@@ -720,9 +729,56 @@ function checkStop(bank, s){
 
     return s;
   }
+
+// --- Response index normalization (fixes reversed option ordering for PROMIS function domains) ---
+function normalizeResponseIdx(item, responseIdx){
+  try{
+    if (!item || !Array.isArray(item.response_options)) return responseIdx;
+    // Only apply to PROMIS function domains where higher T = better but theta is coded "worse"
+    const isPromis = (item.instrument === 'PROMIS');
+    const isFunc = (item.domain === 'Physical_Function' || item.domain === 'Participation');
+    if (!isPromis || !isFunc) return responseIdx;
+
+    const opts = item.response_options.map(o => (o==null? "" : String(o)).toLowerCase().trim());
+    const K = opts.length;
+    if (K <= 1) return responseIdx;
+
+    // Detect if options are ordered WORST->BEST (reversed) using common anchors
+    const idx = (kw) => opts.findIndex(s => s.includes(kw));
+    const anchors = [
+      ["always","never"],
+      ["unable","without"], // e.g., unable to do ... without any difficulty
+      ["cannot","without"],
+      ["extreme","not at all"],
+      ["very much","not at all"]
+    ];
+
+    let reversed = false;
+    for (const [worse, better] of anchors){
+      const iw = idx(worse);
+      const ib = idx(better);
+      if (iw >= 0 && ib >= 0){
+        // if "worse" comes before "better", list is likely WORST->BEST and should be inverted
+        reversed = iw < ib;
+        break;
+      }
+    }
+
+    if (!reversed) return responseIdx;
+
+    const mapped = (K - 1) - responseIdx;
+    // clamp just in case
+    return Math.max(0, Math.min(K-1, mapped));
+  }catch(e){
+    return responseIdx;
+  }
+}
+
 function answer(bank, norms, s, itemId, responseIdx){
     const item = bank.items[itemId];
-    s.administered.push({item_id: itemId, response: responseIdx, domain: item.domain, ts: new Date().toISOString()});
+    const raw_responseIdx = responseIdx;
+    const mapped_responseIdx = normalizeResponseIdx(item, responseIdx);
+    s.administered.push({item_id: itemId, response: mapped_responseIdx, raw_response: raw_responseIdx, domain: item.domain, ts: new Date().toISOString()});
     s.domain_counts[item.domain] = (s.domain_counts[item.domain]||0) + 1;
     // remove from remaining
     s.remaining = s.remaining.filter(id=>id!==itemId);
