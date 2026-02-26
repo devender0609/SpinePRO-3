@@ -298,12 +298,7 @@ const JointCATEngine = (() => {
     let bestScore = -Infinity;
 
     // IMPROVED: Stronger domain balancing with quadratic penalty
-    // Allow tuning via policy/config:
-    // - cfg.domain_penalty_lambda (default 0.5)
-    // - cfg.domain_weights (e.g., { Participation: 1.8, Anxiety: 1.2 })
-    const cfg = bank.cat_config || {};
-    const lambda = (typeof cfg.domain_penalty_lambda === "number") ? cfg.domain_penalty_lambda : 0.5;
-    const domainWeights = (cfg.domain_weights && typeof cfg.domain_weights === "object") ? cfg.domain_weights : {};
+    const lambda = 0.5;
 
     for(const id of candidateIds){
       const it=bank.items[id];
@@ -322,11 +317,6 @@ const JointCATEngine = (() => {
       // IMPROVED: Domain balancing with quadratic penalty and zero-count boost
       const domain_count = s.domain_counts[it.domain] || 0;
       let penalty = lambda * (domain_count * domain_count);
-
-      // Domain weighting: reduce penalty for prioritized domains to increase their exposure.
-      // weight > 1 -> more likely selected; weight < 1 -> less likely selected.
-      const w = (typeof domainWeights[it.domain] === "number" && isFinite(domainWeights[it.domain])) ? domainWeights[it.domain] : 1.0;
-      penalty = penalty / Math.max(0.25, w);
 
       // Strong boost for under-represented domains
       if (domain_count === 0) {
@@ -391,6 +381,10 @@ const JointCATEngine = (() => {
     }
     const priorPrec = priorVar.map(v => 1.0 / v); // precision = 1/variance
 
+    // Optional: reduce MAP shrinkage by scaling prior precision (<1.0 = weaker prior)
+    const priorScale = (policy && Number.isFinite(policy.prior_precision_scale)) ? policy.prior_precision_scale : 1.0;
+    for(let d=0; d<D; d++){ priorPrec[d] *= priorScale; }
+
     // Initialize theta from session, converting nulls to 0
     let theta = new Array(D).fill(0);
     if(s.theta_vec){
@@ -449,9 +443,7 @@ const JointCATEngine = (() => {
         //   - Physical_Function: Flip (display 0=best, calib 0=worst)
         //   - Participation: Flip (display 0=worst, calib 0=best — net result same as flip)
         //   - All SRS (better): Flip (display 0=best, calib 0=worst)
-        const needsFlip = (it.domain === 'Physical_Function' ||
-                           it.domain === 'Participation' ||
-                           (it.higher_theta_means === 'better'));
+        const needsFlip = (it.higher_theta_means === 'better');
         if (needsFlip) {
           resp = (K - 1) - resp;
           // Re-clamp after flip (should be redundant but ensures safety)
@@ -554,8 +546,8 @@ function checkStop(bank, s){
       SRS_Self_Image: 1,
       Physical_Function: 1,
       Fatigue: 1,
-      Anxiety: 2,
-      Depression: 2
+      Anxiety: 1,
+      Depression: 1
     };
 
     let srs_min_met = true;
@@ -695,7 +687,13 @@ function checkStop(bank, s){
       const pct = toPercentile(theta, norm);
       const sev = severityBand(theta, norm);
 
-      const t_score = 50 + 10*theta;
+      // Convert theta to T-score.
+      // - PROMIS symptom domains (Anxiety/Depression/Fatigue): higher theta = worse => higher T = worse
+      // - PROMIS function domains (Physical_Function/Participation): item bank calibrated as higher theta = worse,
+      //   but we report T so higher = better function (PROMIS convention) => invert sign
+      // - SRS domains: higher theta = better => higher T = better
+      const isPromisFunction = (did === 'Physical_Function' || did === 'Participation');
+      const t_score = isPromisFunction ? (50 - 10*theta) : (50 + 10*theta);
       domainResults.push({
         domain: did,
         theta,
