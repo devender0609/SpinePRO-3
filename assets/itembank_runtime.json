@@ -1401,5 +1401,11 @@
       "higher_theta_means": "better",
       "calibration": "MML-GRM, N=969 spine surgery patients"
     }
-  }
+  },
+  "fix_notes": [
+    {
+      "date": "2026-02-26",
+      "change": "Reordered Participation (PROMIS Social Roles) response_options from Always→Never to Never→Always to align category ordering with higher_theta_means='worse' and GRM category indexing."
+    }
+  ]
 }
