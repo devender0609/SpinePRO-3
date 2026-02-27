@@ -341,7 +341,14 @@
 
       window.CAT_POLICY = policy;
       window.__CAT_ASSETS__ = { bank, norms, constraints, policy };
-    } catch (e) {
+    
+      // --- POLICY MERGE FIX ---
+      // Ensure frozen_cat_policy.json actually drives the CAT engine by merging it into bank.cat_config.
+      // (Engine reads thresholds/limits from bank.cat_config; we still pass `policy` separately for transparency.)
+      if (policy && bank) {
+        bank.cat_config = Object.assign({}, (bank.cat_config || {}), policy);
+      }
+} catch (e) {
       console.error(e);
       setStatus(String(e.message || e));
       return;
