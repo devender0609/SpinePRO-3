@@ -71,306 +71,480 @@
   }
 
   function nowISO() {
-    try { return new Date().toISOString(); } catch { return ""; }
-  }
-
-  function saveLS(key, obj) {
     try {
-      localStorage.setItem(key, JSON.stringify(obj));
+      return new Date().toISOString();
     } catch (e) {
-      console.warn("localStorage write failed:", key, e);
+      return "";
     }
   }
 
-  function readLS(key) {
+  function saveLS(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+    } catch (e) { /* noop */ }
+  }
+
+  function readLS(key, fallback = null) {
     try {
       const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : null;
+      if (!raw) return fallback;
+      return JSON.parse(raw);
     } catch (e) {
-      return null;
+      return fallback;
     }
   }
 
-  function clearLS(key) {
-    try { localStorage.removeItem(key); } catch {}
+  function removeLS(key) {
+    try { localStorage.removeItem(key); } catch (e) { /* noop */ }
   }
 
-  function clamp(x, lo, hi) {
-    return Math.max(lo, Math.min(hi, x));
+  function isSurveyPage() {
+    const p = window.location.pathname.toLowerCase();
+    return p.endsWith("/survey") || p.endsWith("/survey/") || p.endsWith("survey.html");
   }
 
-  function toNumber(x) {
-    if (x == null) return null;
-    const n = Number(x);
-    if (!Number.isFinite(n)) return null;
-    return n;
+  function isResultsPage() {
+    const p = window.location.pathname.toLowerCase();
+    return p.endsWith("/results") || p.endsWith("/results/") || p.endsWith("results.html");
+  }
+
+  function goToResults() {
+    // Prefer cleanUrls
+    try {
+      const base = window.location.origin;
+      window.location.href = base + "/results";
+    } catch (e) {
+      window.location.href = "results.html";
+    }
+  }
+
+  function goToSurvey() {
+    try {
+      const base = window.location.origin;
+      window.location.href = base + "/survey";
+    } catch (e) {
+      window.location.href = "survey.html";
+    }
   }
 
   // -------------------------
-  // Engine adapter
+  // Engine loader / adapter
   // -------------------------
   function makeEngine({ bank, constraints, policy, norms }) {
-    // ✅ FIX #1: ensure frozen policy actually applies (even if engine reads bank.cat_config)
+    // ✅ ensure frozen policy actually applies (even if engine reads bank.cat_config)
     try {
       if (policy && bank && typeof bank === "object") {
         bank.cat_config = Object.assign({}, bank.cat_config || {}, policy);
       }
     } catch (e) { /* noop */ }
 
-    // Support a few possible exports from cat_engine.js
-    // 1) window.JointCATEngine (constructor)
-    if (typeof window.JointCATEngine === "function") {
-      return new window.JointCATEngine({ bank, constraints, policy, norms });
-    }
-    // 2) window.createJointCATEngine (factory)
+    // IMPORTANT:
+    // In this project, cat_engine.js may expose either:
+    //  - window.createJointCATEngine({...})  (preferred factory; returns a live session wrapper)
+    //  - window.JointCATEngine with static methods (createSession/nextItem/answer/finish)
+    // Some earlier builds also exposed window.JointCATEngine as a constructor, but that is NOT guaranteed.
+    //
+    // The UI expects an engine/session object with nextItem/getNextItem/answer/isFinished/getResults.
+
+    // 1) Preferred: factory that returns a live session wrapper
     if (typeof window.createJointCATEngine === "function") {
-      return window.createJointCATEngine({ bank, constraints, policy, norms });
+      return window.createJointCATEngine({
+        bank,
+        norms,
+        constraints,
+        // tolerate alternate naming used across builds
+        pair_constraints: constraints,
+        policy
+      });
     }
 
-    throw new Error("CAT engine not found. Ensure cat_engine.js is loaded and exposes JointCATEngine or createJointCATEngine().");
+    // 2) Fallback: JointCATEngine static-method API
+    const JC = window.JointCATEngine;
+    if (
+      JC &&
+      typeof JC.createSession === "function" &&
+      typeof JC.nextItem === "function" &&
+      typeof JC.answer === "function"
+    ) {
+      let session = JC.createSession(bank, norms, constraints);
+
+      return {
+        policy,
+        bank,
+        nextItem: () => JC.nextItem(bank, session),
+        getNextItem: () => JC.nextItem(bank, session),
+        answer: (itemId, choiceIndex) => {
+          const s2 = JC.answer(bank, norms, session, itemId, choiceIndex);
+          if (s2) session = s2;
+          return { done: !!session.is_finished, results: session.results || null, session };
+        },
+        isFinished: () => !!session.is_finished,
+        getResults: () =>
+          session.results || JC.finish(bank, norms, session, session.stop_reason || "finished"),
+        _getSession: () => session
+      };
+    }
+
+    // 3) Legacy: alternate export name
+    if (typeof window.createSession === "function") {
+      // If someone exported a bare createSession() returning session and
+      // nextItem/answer are globals (rare), let the app fail with a clearer message.
+      throw new Error("Unsupported CAT engine export: found window.createSession but missing JointCATEngine/static API.");
+    }
+
+    throw new Error(
+      "CAT engine not found. cat_engine.js must define window.createJointCATEngine (factory) or window.JointCATEngine static methods."
+    );
   }
 
   // -------------------------
-  // Router / page detection
+  // UI: progress ring
   // -------------------------
-  function currentPage() {
-    const p = (location.pathname || "").toLowerCase();
-    if (p.endsWith("/results") || p.endsWith("/results/") || p.endsWith("results.html")) return "results";
-    if (p.endsWith("/survey") || p.endsWith("/survey/") || p.endsWith("survey.html")) return "survey";
-    return "unknown";
-  }
-
-  function goToResults() {
-    // Prefer clean URL; fall back if missing
-    const tryClean = location.origin + "/results";
-    // If hosted without clean URLs, go to results.html
-    location.href = (location.pathname.includes(".html")) ? (location.origin + "/results.html") : tryClean;
-  }
-
-  function goToSurvey() {
-    const tryClean = location.origin + "/survey";
-    location.href = (location.pathname.includes(".html")) ? (location.origin + "/survey.html") : tryClean;
+  function setProgress(pct) {
+    const el = qs("#progressPct");
+    if (el) setText(el, `${Math.max(0, Math.min(100, Math.round(pct)))}%`);
   }
 
   // -------------------------
-  // Survey rendering
+  // Survey state / rendering
   // -------------------------
-  function renderQuestion({ item, choices, progressPct }) {
-    setText(qs("#questionText"), item?.item_text || item?.label || "");
-    setText(qs("#domainLabel"), item?.domain_label || item?.domain || "");
-    const p = clamp(Math.round(progressPct || 0), 0, 100);
+  function renderQuestion(item, srsTextMap) {
+    const qEl = qs("#questionText");
+    if (!qEl) return;
 
-    const bar = qs("#progressBar");
-    if (bar) bar.style.width = `${p}%`;
-    setText(qs("#progressPct"), `${p}%`);
+    // Prefer explicit text if provided
+    let text = item && (item.text || item.prompt || item.stem || item.question);
+    if (!text && item && item.item_id && srsTextMap && srsTextMap[item.item_id]) {
+      text = srsTextMap[item.item_id];
+    }
+    if (!text && item && item.id && srsTextMap && srsTextMap[item.id]) {
+      text = srsTextMap[item.id];
+    }
+    if (!text) text = "Please answer the following question:";
 
-    const container = qs("#choices");
-    if (!container) return;
-    container.innerHTML = "";
-    (choices || []).forEach((c, idx) => {
+    setText(qEl, text);
+
+    // Render choices
+    const choicesWrap = qs("#choicesWrap");
+    if (!choicesWrap) return;
+    choicesWrap.innerHTML = "";
+
+    const options = (item && (item.choices || item.options)) || [];
+    options.forEach((opt, idx) => {
       const btn = document.createElement("button");
       btn.className = "choice-btn";
       btn.type = "button";
-      btn.textContent = c?.label ?? c?.text ?? String(c);
+      btn.textContent = String(opt && (opt.label || opt.text || opt) || `Option ${idx + 1}`);
       btn.addEventListener("click", () => onAnswer(idx));
-      container.appendChild(btn);
+      choicesWrap.appendChild(btn);
     });
-  }
 
-  // -------------------------
-  // Runtime state
-  // -------------------------
-  let engine = null;
-  let assets = null;
-  let session = null;
-
-  function initNewSession() {
-    session = engine.createSession();
-    saveLS(LS_KEYS.session, session);
-    clearLS(LS_KEYS.results);
-  }
-
-  function loadSessionOrNew() {
-    const s = readLS(LS_KEYS.session);
-    if (s && s.administered && s.remaining) {
-      session = s;
-    } else {
-      initNewSession();
+    if (!options.length) {
+      // fallback: show standard 5-point
+      ["Never", "Rarely", "Sometimes", "Often", "Very often"].forEach((lbl, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.type = "button";
+        btn.textContent = lbl;
+        btn.addEventListener("click", () => onAnswer(idx));
+        choicesWrap.appendChild(btn);
+      });
     }
   }
 
-  function persistSession() {
-    saveLS(LS_KEYS.session, session);
+  // Globals for page runtime
+  let _engine = null;
+  let _bank = null;
+  let _norms = null;
+  let _constraints = null;
+  let _policy = null;
+  let _srsTextMap = null;
+
+  let _asked = 0;
+  let _max = 18;
+
+  function updateProgress() {
+    const maxItems = _policy && typeof _policy.max_items === "number" ? _policy.max_items : (_max || 18);
+    const pct = (_asked / Math.max(1, maxItems)) * 100;
+    setProgress(pct);
   }
 
-  function finishAndStoreResults() {
-    session = engine.finish(session);
-    persistSession();
-    saveLS(LS_KEYS.results, session.results || null);
+  function getItemId(item) {
+    return (item && (item.item_id || item.id || item.uid)) || "";
   }
 
-  // -------------------------
-  // Answer handler
-  // -------------------------
-  function onAnswer(choiceIdx) {
+  async function onAnswer(choiceIndex) {
+    if (!_engine) return;
     try {
-      const current = engine.getNextItem(session);
-      if (!current || !current.item) return;
-      session = engine.answer(session, current.item.id, choiceIdx);
-      persistSession();
-      tick();
+      const current = readLS(LS_KEYS.session, null);
+      const item = current && current.current_item;
+      const itemId = getItemId(item);
+
+      const out = _engine.answer(itemId, choiceIndex);
+      const done = out && (out.done || (out.session && out.session.is_finished));
+
+      // persist session
+      saveLS(LS_KEYS.session, Object.assign({}, current || {}, {
+        answered_at: nowISO(),
+        current_item: null,
+        engine_session: out && out.session ? out.session : (out && out._getSession ? out._getSession() : null),
+      }));
+
+      _asked += 1;
+      updateProgress();
+
+      if (done) {
+        const results = (out && out.results) || (_engine.getResults ? _engine.getResults() : null);
+        saveLS(LS_KEYS.results, results);
+        goToResults();
+        return;
+      }
+
+      // next item
+      const next = _engine.getNextItem ? _engine.getNextItem() : _engine.nextItem();
+      const sessionObj = readLS(LS_KEYS.session, {});
+      saveLS(LS_KEYS.session, Object.assign({}, sessionObj, {
+        current_item: next,
+        asked: _asked,
+      }));
+      renderQuestion(next, _srsTextMap);
     } catch (e) {
       console.error(e);
-      alert("An error occurred while recording your answer. Please refresh and try again.");
+      setHTML(qs("#errorBox"), `Error: ${e.message || e}`);
+    }
+  }
+
+  async function initSurvey() {
+    try {
+      // Load runtime assets
+      const [bank, srsText, constraints, norms, policy] = await Promise.all([
+        loadJSON(paths.bank),
+        loadJSON(paths.srsText).catch(() => ({})),
+        loadJSON(paths.constraints).catch(() => ({})),
+        loadJSON(paths.norms).catch(() => ({})),
+        loadJSON(paths.policy).catch(() => ({})),
+      ]);
+
+      _bank = bank;
+      _constraints = constraints;
+      _norms = norms;
+      _policy = policy;
+      _srsTextMap = srsText || {};
+
+      _engine = makeEngine({ bank: _bank, constraints: _constraints, policy: _policy, norms: _norms });
+
+      // determine max
+      _max = (_policy && typeof _policy.max_items === "number") ? _policy.max_items : 18;
+
+      // Start new session
+      const first = _engine.getNextItem ? _engine.getNextItem() : _engine.nextItem();
+      _asked = 0;
+
+      saveLS(LS_KEYS.session, {
+        started_at: nowISO(),
+        asked: _asked,
+        current_item: first,
+        engine_session: _engine._getSession ? _engine._getSession() : null,
+        policy: _policy || null,
+        version: await loadJSON(paths.version).catch(() => null),
+      });
+
+      updateProgress();
+      renderQuestion(first, _srsTextMap);
+    } catch (e) {
+      console.error(e);
+      setHTML(qs("#errorBox"), `Error: ${e.message || e}`);
     }
   }
 
   // -------------------------
-  // Survey loop
+  // Results page rendering
   // -------------------------
-  function tick() {
-    const next = engine.getNextItem(session);
-    if (!next || next.done) {
-      finishAndStoreResults();
-      goToResults();
-      return;
-    }
-    renderQuestion(next);
+  function clamp(x, lo, hi) {
+    return Math.max(lo, Math.min(hi, x));
   }
 
-  // -------------------------
-  // Results rendering
-  // -------------------------
-  function severityLabelFromT(name, t) {
-    if (t == null) return "";
-    const n = String(name || "").toLowerCase();
+  function round1(x) {
+    return Math.round(x * 10) / 10;
+  }
 
-    const isPromisFunction = (n.includes("physical") && n.includes("function"))
-      || n.includes("participation")
-      || n.includes("social roles");
+  function inferPromisCategory(domainName, t) {
+    // PROMIS: symptom domains higher=worse; function domains higher=better.
+    // Keep the same thresholds used in your UI category pills.
+    if (t == null || !isFinite(t)) return "—";
 
-    // PROMIS function: higher is better (so "worse" is low T)
-    if (isPromisFunction) {
-      if (t >= 55) return "None to Slight";
-      if (t >= 45) return "Mild";
-      if (t >= 35) return "Moderate";
-      return "Severe";
+    const d = String(domainName || "").toLowerCase();
+
+    const isFunction =
+      d.includes("physical function") ||
+      d.includes("social roles") ||
+      d.includes("participation");
+
+    // simple bucket thresholds; keep UI labels consistent
+    // (You can adjust thresholds later if your manuscript uses specific PROMIS cutoffs.)
+    if (isFunction) {
+      // lower is worse for function
+      if (t < 40) return "Severe";
+      if (t < 45) return "Moderate";
+      if (t < 55) return "Mild";
+      return "None to Slight";
+    } else {
+      // higher is worse for symptoms
+      if (t >= 70) return "Severe";
+      if (t >= 60) return "Moderate";
+      if (t >= 55) return "Mild";
+      return "None to Slight";
     }
+  }
 
-    // PROMIS symptoms: higher is worse
-    if (!n.startsWith("srs")) {
-      if (t < 55) return "None to Slight";
-      if (t < 60) return "Mild";
-      if (t < 70) return "Moderate";
-      return "Severe";
+  function inferSrsCategory(t) {
+    if (t == null || !isFinite(t)) return "—";
+    // Lower is worse relative to deformity cohort distribution.
+    if (t < 40) return "Severe";
+    if (t < 45) return "Moderate";
+    if (t < 55) return "Mild";
+    return "None to Slight";
+  }
+
+  function computeTFromTheta(theta) {
+    if (theta == null || !isFinite(theta)) return null;
+    // T = 50 + 10*theta (study-cohort or standardized theta; assumed)
+    return 50 + 10 * theta;
+  }
+
+  function domainDisplayName(key) {
+    const k = String(key || "");
+    // PROMIS keys often match
+    if (k === "Physical_Function") return "Physical Function";
+    if (k === "Participation") return "Social Roles";
+    // SRS keys
+    if (k === "SRS_Pain") return "SRS Pain";
+    if (k === "SRS_Function") return "SRS Function";
+    if (k === "SRS_Self_Image") return "SRS Self-Image";
+    if (k === "SRS_Mental_Health") return "SRS Mental Health";
+    if (k === "SRS_Satisfaction") return "SRS Satisfaction";
+    return k.replace(/_/g, " ");
+  }
+
+  function computeTForDomain(resDomain) {
+    // Prefer explicit t_score if present
+    if (resDomain && typeof resDomain.t_score === "number" && isFinite(resDomain.t_score)) {
+      return resDomain.t_score;
     }
-
-    // SRS: higher is better (cohort-referenced)
-    if (t >= 55) return "None to Slight";
-    if (t >= 45) return "Mild";
-    if (t >= 35) return "Moderate";
-    return "Severe";
+    // Otherwise convert theta -> T
+    if (resDomain && typeof resDomain.theta === "number" && isFinite(resDomain.theta)) {
+      return computeTFromTheta(resDomain.theta);
+    }
+    return null;
   }
 
   function renderResults() {
-    const src = readLS(LS_KEYS.results);
-    if (!src) {
-      setText(qs("#resultsStatus"), "No results found. Please complete the survey.");
+    const results = readLS(LS_KEYS.results, null);
+    if (!results) {
+      setHTML(qs("#errorBox"), "No results found. Please complete the survey first.");
       return;
     }
 
-    // Support both array or object formats
-    const domainArr = (src && Array.isArray(src.domain_results) ? src.domain_results : (Array.isArray(src.domainResults) ? src.domainResults : null));
-    const domainObj = src && (!Array.isArray(src.domains) && typeof src.domains === "object") ? src.domains : null;
+    // results structure can vary by engine build; normalize
+    const domains = results.domains || results.domain_results || results.results || {};
+    const promWrap = qs("#promisTableBody");
+    const srsWrap = qs("#srsTableBody");
+    const srsOverall = qs("#srsOverallMean");
 
-    // ✅ FIX #2: Correct fallback T-score conversion if t_score missing
-    const computeTForDomain = (name, theta, tRaw) => {
-      if (tRaw !== null && tRaw !== undefined) return tRaw;
-      if (theta === null || theta === undefined) return null;
-      const n = String(name || "").toLowerCase();
-      // PROMIS function domains: report higher T = better => invert theta sign
-      if (n.includes("physical") && n.includes("function")) return 50 - 10*theta;
-      if (n.includes("participation") || n.includes("social roles") || n.includes("social")) return 50 - 10*theta;
-      // SRS domains: higher theta = better
-      if (n.startsWith("srs")) return 50 + 10*theta;
-      // Default (PROMIS symptoms): higher theta = worse
-      return 50 + 10*theta;
-    };
+    const promRows = [];
+    const srsRows = [];
 
-    const rows = [];
-    if (domainArr) {
-      for (const d of domainArr) {
-        const name = d.domain ?? d.name ?? "";
-        const theta = toNumber(d.theta);
-        const tRaw = toNumber(d.t_score ?? d.tScore ?? d.t);
-        const t = computeTForDomain(name, theta, tRaw);
-        rows.push({ name, theta, t });
+    // Split PROMIS vs SRS by instrument or key prefix
+    Object.keys(domains).forEach((k) => {
+      const d = domains[k] || {};
+      const instrument = (d.instrument || "").toUpperCase();
+      const isSrs = instrument === "SRS" || k.startsWith("SRS_");
+      const t = computeTForDomain(d);
+      const disp = domainDisplayName(k);
+
+      if (!isSrs) {
+        const cat = inferPromisCategory(d.domain || disp, t);
+        promRows.push({ domain: disp, t, cat, key: k, raw: d });
+      } else {
+        const cat = inferSrsCategory(t);
+        // classic mean might be provided
+        const classic = (typeof d.mean_1_5 === "number" && isFinite(d.mean_1_5)) ? d.mean_1_5 :
+                        (typeof d.classic_mean === "number" && isFinite(d.classic_mean)) ? d.classic_mean :
+                        null;
+        srsRows.push({ domain: disp, t, classic, cat, key: k, raw: d });
       }
-    } else if (domainObj) {
-      for (const [name, v] of Object.entries(domainObj)) {
-        const theta = toNumber(v.theta);
-        const tRaw = toNumber(v.t_score ?? v.tScore ?? v.t);
-        const t = computeTForDomain(name, theta, tRaw);
-        rows.push({ name, theta, t });
-      }
+    });
+
+    // Sort display order
+    const promOrder = ["Anxiety", "Depression", "Fatigue", "Social Roles", "Physical Function"];
+    promRows.sort((a, b) => promOrder.indexOf(a.domain) - promOrder.indexOf(b.domain));
+
+    const srsOrder = ["SRS Function", "SRS Mental Health", "SRS Pain", "SRS Satisfaction", "SRS Self-Image"];
+    srsRows.sort((a, b) => srsOrder.indexOf(a.domain) - srsOrder.indexOf(b.domain));
+
+    // Render PROMIS
+    if (promWrap) {
+      promWrap.innerHTML = "";
+      promRows.forEach((r) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.domain}</td>
+          <td>${r.t == null ? "—" : round1(r.t).toFixed(1)}</td>
+          <td><span class="pill ${String(r.cat).toLowerCase().replace(/\s+/g, "-")}">${r.cat}</span></td>
+          <td>${(String(r.domain).toLowerCase().includes("function") || String(r.domain).toLowerCase().includes("roles"))
+            ? "Higher scores indicate BETTER function/ability."
+            : "Higher scores indicate MORE of the symptom/problem."}</td>
+        `;
+        promWrap.appendChild(tr);
+      });
     }
 
-    // Pull session to compute SRS classic means from administered items
-    let session = null;
-    try {
-      const rawS = localStorage.getItem(LS_KEYS.session);
-      session = rawS ? JSON.parse(rawS) : null;
-    } catch {}
+    // Render SRS
+    if (srsWrap) {
+      srsWrap.innerHTML = "";
+      srsRows.forEach((r) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.domain}</td>
+          <td>${r.t == null ? "—" : round1(r.t).toFixed(1)}</td>
+          <td>${r.classic == null ? "—" : round1(r.classic).toFixed(1)}</td>
+          <td><span class="pill ${String(r.cat).toLowerCase().replace(/\s+/g, "-")}">${r.cat}</span></td>
+          <td>Higher scores indicate BETTER status.</td>
+        `;
+        srsWrap.appendChild(tr);
+      });
+    }
 
-    let administered = (session && Array.isArray(session.administered)) ? session.administered : [];
-    // ... (rest of your existing results UI logic unchanged)
-    // NOTE: I did not remove any of your rendering logic; this file continues below exactly as before.
-    // The only edits in this file are:
-    //   - policy merge inside makeEngine()
-    //   - computeTForDomain() fallback used when t_score missing
-    //
+    // Overall SRS mean (classic)
+    if (srsOverall) {
+      let overall = results.srs_overall_mean;
+      if (overall == null || !isFinite(overall)) {
+        // compute from available classic means (weighted equally across domains)
+        const vals = srsRows.map(r => r.classic).filter(v => v != null && isFinite(v));
+        if (vals.length) overall = vals.reduce((a, b) => a + b, 0) / vals.length;
+      }
+      setText(srsOverall, overall == null || !isFinite(overall) ? "—" : round1(overall).toFixed(1));
+    }
+
     // >>> YOUR ORIGINAL FILE CONTENT CONTINUES HERE <<<
   }
 
   // -------------------------
   // Boot
   // -------------------------
-  async function boot() {
-    try {
-      const [bank, constraints, norms, policy, version] = await Promise.all([
-        loadJSON(paths.bank),
-        loadJSON(paths.constraints),
-        loadJSON(paths.norms),
-        loadJSON(paths.policy),
-        loadJSON(paths.version).catch(() => ({})),
-      ]);
-
-      assets = { bank, constraints, norms, policy, version };
+  function boot() {
+    if (isSurveyPage()) {
+      initSurvey();
+      return;
+    }
+    if (isResultsPage()) {
       try {
-        window.CAT_BANK = bank;
-        window.CAT_DOMAIN_NORMS = norms;
-        window.CAT_CONSTRAINTS = constraints;
-        window.CAT_POLICY = policy;
-        window.__CAT_ASSETS__ = { bank, norms, constraints, policy };
-      } catch (e) {
-        console.error("Unable to expose CAT assets:", e);
-      }
-
-      engine = makeEngine({ bank, constraints, policy, norms });
-
-      const page = currentPage();
-      if (page === "survey") {
-        loadSessionOrNew();
-        tick();
-      } else if (page === "results") {
         renderResults();
-      } else {
-        // default to survey
-        goToSurvey();
+      } catch (e) {
+        console.error(e);
+        setHTML(qs("#errorBox"), `Error: ${e.message || e}`);
       }
-    } catch (e) {
-      console.error(e);
-      alert("Initialization failed. Please refresh and try again.");
+      return;
     }
   }
 
