@@ -346,7 +346,7 @@
       // Ensure frozen_cat_policy.json actually drives the CAT engine by merging it into bank.cat_config.
       // (Engine reads thresholds/limits from bank.cat_config; we still pass `policy` separately for transparency.)
       if (policy && bank) {
-        bank.cat_config = Object.assign({}, (bank.cat_config || {}), policy);
+        bank.cat_config = mergeCatConfig((bank.cat_config || {}), (policy || {}));
       }
 } catch (e) {
       console.error(e);
@@ -397,7 +397,33 @@
         return;
       }
 
-      // Expect the engine to return an item object; if it returns an id, look it up
+      // Robust guard: engine may return null/undefined if constraints eliminate all candidates
+      if (!item) {
+        if (api.isFinished && api.isFinished()) {
+          renderResults(api.results());
+          return;
+        }
+        setStatus("No question available (engine returned no item).");
+        console.error("Engine returned no item from getNextItem(). Check exclusions / bank integrity / cat_config.");
+        return;
+      }
+
+      // Some engines return an item id string; resolve it into the bank item object
+      if (typeof item === "string") {
+        item = (bank.items && bank.items[item]) ? bank.items[item] : { item_id: item, item_text: `(Item text missing: ${item})`, response_options: [] };
+      }
+
+      // Normalize option field name
+      if (!item.response_options && item.options) item.response_options = item.options;
+
+      // Ensure we have response options; otherwise do not crash the UI
+      const opts = item.response_options || [];
+      if (!Array.isArray(opts) || opts.length === 0) {
+        setStatus("No response options found for this item.");
+        console.error("Item has no response options:", item);
+        return;
+      }
+// Expect the engine to return an item object; if it returns an id, look it up
       if (typeof item === "string") {
         item = (bank.items && bank.items[item]) ? bank.items[item] : { item_text: `Item ${item}`, response_options: [] };
       }
