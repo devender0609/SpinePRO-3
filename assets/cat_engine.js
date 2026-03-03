@@ -684,15 +684,19 @@ function checkStop(bank, s){
       const se = (s.se && typeof s.se[did] === "number") ? s.se[did] : null;
 
       const norm = normsMap && normsMap[did] ? normsMap[did] : null;
-      const pct = toPercentile(theta, norm);
-      const sev = severityBand(theta, norm);
+      // For PROMIS function domains we *report* higher = better (PROMIS convention)
+      // even though the calibrated bank uses higher theta = worse.
+      // Use reported-theta (sign-flipped) for percentile/severity so labels match the reported T-score.
+      const isPromisFunction = (did === 'Physical_Function' || did === 'Participation');
+      const reportTheta = isPromisFunction ? (-theta) : theta;
+      const pct = toPercentile(reportTheta, norm);
+      const sev = severityBand(reportTheta, norm);
 
       // Convert theta to T-score.
       // - PROMIS symptom domains (Anxiety/Depression/Fatigue): higher theta = worse => higher T = worse
       // - PROMIS function domains (Physical_Function/Participation): item bank calibrated as higher theta = worse,
       //   but we report T so higher = better function (PROMIS convention) => invert sign
       // - SRS domains: higher theta = better => higher T = better
-      const isPromisFunction = (did === 'Physical_Function' || did === 'Participation');
       const t_score = isPromisFunction ? (50 - 10*theta) : (50 + 10*theta);
       domainResults.push({
         domain: did,
